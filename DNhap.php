@@ -103,7 +103,7 @@
 </head>
 <body>
     <div class="login-container">
-        <a href="javascript:history.back()" class="close-btn">X</a>
+        <a href="webbh.php" class="close-btn">X</a>
         <h2>Đăng Nhập</h2>
         <form id="loginForm" method="POST">
             <div class="form-group">
