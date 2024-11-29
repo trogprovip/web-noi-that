@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Nội thất Bắc Âu</title>
+    <style>
+        /* Cài đặt chung */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: Arial, sans-serif; 
+        }
+        
+        /* Định dạng Header */
+        header {
+            background-color: #e0e0e0; /* Màu nền xám nhạt */
+            color: #0d425d; /* Màu chữ */
+            display: flex; /* Dùng flex để căn đều các mục trong header */
+            justify-content: space-between; /* Căn đều hai bên trái và phải */
+            padding: 10px 30px; /* Khoảng đệm trong */
+            height: 65px; /* Chiều cao của header */
+            align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+            position: fixed; /* Cố định header trên cùng màn hình */
+            left: 0;
+            top: 0;
+            right: 0;
+            z-index: 1000; /* Đảm bảo header nằm trên các phần tử khác */
+
+        }
+
+        /* Logo */
+        .logo img { 
+            max-width: 150px;
+            margin-top: 10px;
+        }
+
+        /* Định dạng Menu */
+        .menu ul { 
+            display: flex;
+            list-style: none; 
+        }
+        .menu ul li { 
+            padding: 0 10px; /* Khoảng đệm ngang giữa các mục menu chính */
+            margin-right: 50px; 
+            position: relative; 
+        }
+        .menu a {
+            color: #0d425d; 
+            text-decoration: none; 
+            font-size: 18px; 
+            font-weight: bold; 
+        }
+        .sub-menu {
+            display: none;
+            opacity: 0; /* Ban đầu ẩn menu con */
+            position: absolute;
+            top: 80%;
+            left: 0;
+            background: #f9f9f9;
+            padding: 30px 0; /* Khoảng đệm dọc */
+            border: 1px solid #1e1d1d; /* Viền xám nhạt */
+            z-index: 1000; /* Đảm bảo menu con nằm trên các phần tử khác */
+            min-width: 180px; /* Chiều rộng tối thiểu cho menu con */
+        }
+        /* Định dạng cho các mục con */
+        .sub-menu li {
+         padding: 30px; /* Khoảng đệm cho các mục con */
+         margin-bottom: 15px; /* Khoảng cách giữa các mục */
+         border-bottom: 1px solid #ddd; /* Đường viền dưới giữa các mục con */
+         }
+
+        .menu ul li:hover .sub-menu { 
+            display: block; 
+        }
+        .sub-menu a {
+            color: #292b2c; 
+            font-size: 16px; 
+            font-weight: bold; 
+        }
+        .sub-menu a:hover { color: #0078d7; }
+        /* Hiển thị menu con khi di chuột vào mục cha */
+        .menu > ul > li:hover .sub-menu {
+         margin-top: 25px;
+        display: block; /* Hiển thị menu con */
+        opacity: 1; /* Làm mờ dần */
+        visibility: visible; /* Cho phép hiển thị */
+        }   
+
+
+        /* Định dạng phần khác */
+        .other {
+            display: flex;
+            align-items: center;
+        }
+        .other input {
+            width: 180px;
+            height: 30px;
+            padding: 5px;
+            margin-right: 30px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .other img {
+            margin-left: 10px; 
+        }
+        .other a {
+            color: #0d425d; 
+            margin-right: 20px;
+            font-size: 18px;
+            font-weight: bold; 
+            text-decoration: none; /* Xóa gạch chân cho liên kết */
+
+        }
+    
+        /* Định dạng cho giỏ hàng */
+        #cart {
+            position: relative; 
+        }
+
+        /* Định dạng cho số lượng giỏ hàng */
+        #cart-count {
+            position: absolute;
+            top: 15px; 
+            right: 25px; 
+            color: rgb(46, 44, 44); 
+            font-size: 12px; 
+            font-weight: bold; 
+            min-width: 20px; /* Đảm bảo chiều rộng tối thiểu cho số lượng */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="anhlogo.jpg" alt="Logo Nội thất Bắc Âu" style="width: 120px;">
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="#">Phòng</a>
+                    <ul class="sub-menu">
+                        <li><a href="phongkhach.html">Phòng khách</a></li>
+                        <li><a href="#">Phòng ngủ</a></li>
+                        <li><a href="#">Phòng ăn</a></li>
+                        <li><a href="#">Phòng làm việc</a></li>
+                    </ul>
+                </li>
+                <li><a href="khuyenmai.html">Khuyến mại</a></li>
+                <li><a href="blog.html">Blog</a></li>
+            </ul>
+        </div>
+        <div class="other">
+            <input type="text" placeholder="Tìm kiếm..."> 
+            <a href="dangnhap.html">
+                <img src="Font Awesome/user-solid.svg" style="width: 15px; height: auto;" class="icon" >
+                Đăng nhập
+            </a>
+            <a href="#">
+                <img src="Font Awesome/cart-shopping-solid.svg" style="width: 20px; height: auto;" class="icon" >
+                <span id="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+
+    
+</body>
+
+
+
+
+
+
+
+
+
+
+
+<title>Xem ảnh sản phẩm</title>
+    <style>
+        /* Định dạng chung */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        
+        
+        /* Định dạng container cho chi tiết sản phẩm */
+        .product-detail-container {
+          
+            display: flex;
+            margin: 80px auto 50px; /* Thay đổi margin-top thành 80px */
+            gap: 50px;
+            max-width: 1200px;
+        }
+
+        /* Phần ảnh sản phẩm */
+        .product-images {
+            flex: 1;
+        }
+
+        /* Ảnh chính */
+        .product-images .main-image {
+            width: 600px;
+            height: 400px;
+            object-fit: cover;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Ảnh thu nhỏ */
+        .image-thumbnails {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .image-thumbnails img {
+            width: 100px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+        }
+
+        /* Phần thông tin sản phẩm */
+        .product-info {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .product-info h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .product-price {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+       
+
+        /* Giá trước giảm */
+        .product-price .old-price {
+            font-size: 18px;
+            color: #888;
+            text-decoration: line-through;
+        }
+
+        /* Giá sau giảm */
+        .product-price .new-price {
+            font-size: 24px;
+            color: #205097;
+            display: block; /* Đưa giá sau giảm xuống dòng */
+        }
+
+        .product-code {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .product-short-description {
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .product-quantity {
+            margin-bottom: 20px;
+        }
+
+        .product-quantity input {
+            width: 50px;
+            padding: 5px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .add-to-cart-btn {
+            padding: 15px 25px;
+            background-color: #0d425d;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #092b40;
+        }
+        
+        
+
+
+
+       
+
+
+
+
+
+    </style>
+</head>
+<body>
+
+<main>
+    <div class="product-detail-container">
+        <!-- Phần hiển thị ảnh sản phẩm -->
+        <div class="product-images">
+            <!-- Ảnh chính -->
+            <img src="ảnh/Bàn nâng hạ trắng/bannanghatrang1.jpeg" class="main-image" id="mainImage">
+            
+            <!-- Thumbnail images -->
+            <div class="image-thumbnails">
+                <img src="ảnh/Bàn nâng hạ trắng/bannanghatrang1.jpeg" class="thumbnail" onclick="changeImage('ảnh/bannanghatrang1.jpeg')">
+                <img src="ảnh/Bàn nâng hạ trắng/bannanghatrang2.jpeg" class="thumbnail" onclick="changeImage('ảnh/bannanghatrang2.jpeg')">
+                <img src="ảnh/Bàn nâng hạ trắng/bannanghatrang3.jpeg" class="thumbnail" onclick="changeImage('ảnh/bannanghatrang3.jpeg')">
+                <img src="ảnh/Bàn nâng hạ trắng/bannanghatrang4.jpeg" class="thumbnail" onclick="changeImage('ảnh/bannanghatrang4.jpeg')">
+            </div>
+        </div>
+
+
+        <!-- Thông tin sản phẩm -->
+        
+        <div class="product-info">
+            <h1>Bàn nâng hạ | SVANEKE | gỗ công nghiệp/thép | trắng | R80xD160xC70/119cm</h1>
+            <div class="product-price">
+              <!-- Khung giảm giá -->
+       <!-- Khung giảm giá -->
+       <div style="display: inline-block; background-color: #ff4d4d; color: white; 
+       padding: 5px 10px; border-radius: 5px; font-size: 10px; font-weight: bold;
+        margin-right: 10px; width: 80px; text-align: center;">
+       Giảm 20%
+      </div>
+
+                <p style="color: #888" class="old-price"><del>12.900.000 đ </del></p>   
+                
+                <p style="color: #205097" class="new-price">10.320.000 đ</p>
+            </div>
+            <p class="product-code">Mã sản phẩm: 12345</p>
+            <p class="product-short-description">Bàn làm việc với khả năng điều chỉnh độ cao, khung thép chắc chắn, và bề mặt gỗ công nghiệp bền đẹp.</p>
+
+            <div class="product-quantity">
+                <label for="quantity">Số lượng:</label>
+                <input type="number" id="quantity" name="quantity" value="1" min="1">
+            </div>
+
+            <button class="add-to-cart-btn">Thêm vào giỏ hàng</button>
+        </div>
+    </div>
+
+    <title>Mô tả sản phẩm</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 20px auto;
+      background-color: white;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .left-content {
+      flex: 4;
+      padding-right: 20px;
+    }
+
+    .right-content {
+      flex: 2;
+    }
+
+    h2 {
+      color: #333;
+      font-size: 24px;
+    }
+
+    p {
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .product-image {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .product-image img {
+      width: 60%;
+      height: auto;
+      max-width: 100%;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      color: #333;
+    }
+
+    td {
+      background-color: #fff;
+      color: #555;
+    }
+
+    /* Media Queries để điều chỉnh giao diện khi màn hình nhỏ */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .left-content {
+        flex: 1;
+        padding-right: 0;
+      }
+
+      .right-content {
+        flex: 1;
+        margin-top: 20px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+
+      th, td {
+        padding: 8px;
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 18px;
+      }
+
+      p {
+        font-size: 12px;
+      }
+
+      th, td {
+        padding: 6px;
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Nội dung bên trái (3/5 màn hình) -->
+    <div class="left-content">
+      <div class="product-image">
+        <p>Một chiếc bàn làm việc tốt sẽ giúp bạn đạt được tối đa hiệu quả làm việc. Bàn làm việc SVANEKE với thiết kế tối giản nhưng đẹp mắt còn là điểm nhấn cho không gian phòng, tạo cảm hứng mỗi khi bắt đầu công việc</p>
+        
+      </div>
+
+      <h3>Thiết kế bền đẹp và tiện nghi</h3>
+      <p>- Mặt bàn làm việc SVANEKE màu trắng được làm từ chất liệu gỗ công nghiệp có độ bền cao, đã qua quá trình xử lý chống cong vênh và mối mọt. Mặt bàn dài 160cm, rộng 80cm đặt được nhiều vật dụng như máy vi tính, sách báo, lọ hoa, đồng hồ,...</p>
+      <p>- Khung và chân bàn được làm bằng thép sơn tĩnh điện nên đảm bảo sự chắc chắn, hạn chế tối đa tình trạng rỉ sét, cong vênh trong quá trình sử dụng.</p>
+      <p>- Ngoài ra, chân bàn SVANEKE có động cơ tùy chỉnh, nâng lên hạ xuống theo nhu cầu sử dụng
+
+      </p>
+      
+      <h3>Thiết kế bền đẹp và tiện nghi</h3>
+
+      <p>- Bàn làm việc SVANEKE có kích thước tiêu chuẩn dài 160 x rộng 80 x cao 75cm mang lại cảm giác thoải mái khi sử dụng, hỗ trợ ngồi đúng tư thế để bảo vệ cột sống và các đốt sống lưng.    </p>
+      <p>- Màu trắng sang trọng, dễ dàng kết hợp cùng ghế làm việc để tạo thành góc học tập cho trẻ em hoặc khu vực làm việc cho người lớn. Phù hợp đặt trong các không gian phòng đọc sách, phòng làm việc, văn phòng, lớp học, ...</p>
+      <p>- Sản phẩm đạt Chứng nhận an toàn môi trường và sức khỏe: FSC® </p>
+    </div>
+
+    <!-- Nội dung bên phải (2/5 màn hình) -->
+    <div class="right-content">
+      <div class="table-container">
+        <table>
+          <tr>
+            <th>Chất liệu chính</th>
+            <td>Thép, Gỗ công nghiệp</td>
+          </tr>
+          <tr>
+            <th>Chiều dài sản phẩm (cm)</th>
+            <td>160.0</td>
+          </tr>
+          <tr>
+            <th>Chiều rộng sản phẩm (cm)</th>
+            <td>80.0</td>
+          </tr>
+          <tr>
+            <th>Chiều cao sản phẩm (cm)</th>
+            <td>119.0</td>
+          </tr>
+          <tr>
+            <th>Sản xuất tại</th>
+            <td>Trung Quốc</td>
+          </tr>
+          <tr>
+            <th>Hướng dẫn sử dụng</th>
+            <td>
+              Lắp đặt theo hướng dẫn lắp ráp<br>
+              Sử dụng trong nhà<br>
+              Vệ sinh sản phẩm bằng khăn mềm<br>
+              Lau khô bề mặt sản phẩm nếu có tiếp xúc với nước
+            </td>
+          </tr>
+          <tr>
+            <th>Chứng nhận sức khỏe và môi trường</th>
+            <td>Môi trường và sức khỏe FSC® Mix</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  
+</main>
+
+<script>
+    // Hàm thay đổi ảnh chính khi người dùng nhấn vào thumbnail
+    function changeImage(imageSrc) {
+        document.getElementById('mainImage').src = imageSrc;
+    }
+</script>
+
+</body>
+</html>
+
+    </main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Phần Footer -->
+<style>
+    footer {
+        background-color: #d3d3d3; /* Nền xám đậm hơn */
+        color: #333;
+        padding: 40px 0;
+        font-family: Arial, sans-serif;
+    }
+    
+    .footer-container {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: auto;
+        padding: 0 20px;
+        flex-wrap: wrap;
+    }
+    
+    .footer-section {
+        flex: 1;
+        margin: 15px;
+        text-align: justify;
+    }
+    
+    .footer-section h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #0d425d;
+    }
+    
+    .footer-section a, .footer-section p {
+        font-size: 14px;
+        color: #555;
+        text-decoration: none;
+    }
+    
+    .footer-section a:hover {
+        color: #0078d7;
+    }
+    
+    /* Logo */
+    .logo {
+        margin-bottom: 15px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .footer-container {
+            flex-direction: column;
+        }
+    }
+    </style>
+    
+    <footer>
+        <div class="footer-container">
+            <!-- Phần Logo -->
+            <div class="footer-section">
+                <img src="anhlogo.jpg" alt="Logo" class="logo" width="150">
+            </div>
+    
+            <!-- Phần Giới thiệu -->
+            <div class="footer-section">
+                <h3>Giới thiệu</h3>
+                <p>Nội thất chất lượng cao phong cách Bắc Âu, mang lại tiện nghi cho không gian của bạn.</p>
+                <p><a href="blog.html">Tìm hiểu thêm</a></p>
+            </div>
+    
+            <!-- Phần Hỗ trợ khách hàng -->
+            <div class="footer-section">
+                <h3>Hỗ trợ khách hàng</h3>
+                <p><a href="#">Chính sách mua hàng</a></p>
+                <p><a href="#">Giao hàng & Lắp đặt</a></p>
+                <p><a href="#">Chính sách bảo hành</a></p>
+            </div>
+    
+            <!-- Phần Thông tin liên hệ -->
+            <div class="footer-section">
+                <h3>Thông tin liên hệ</h3>
+                <p> <img src="Font Awesome/location-dot-solid.svg" style="width: 12px; height: auto;" class="icon" > Đ/c: Cầu Giấy, Hà Nội</p>
+                <p> <img src="Font Awesome/phone-solid.svg" style="width: 12px; height: auto;" class="icon" > Sđt: +84 123 456 789</p>
+                <p>  <img src="Font Awesome/envelope-solid.svg" style="width: 12px; height: auto;" class="icon"> Email: noithatbacau@gmail.com</p>
+            </div>
+        </div>
+    </footer>
+    

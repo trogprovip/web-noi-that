@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport content="width=device-width, initial-scale=1.0>
+    <link rel="stylesheet" href="styles.css">
+    <title>Nội thất Bắc Âu</title>
+    <style>
+        /* Cài đặt chung */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: Arial, sans-serif; 
+        }
+        
+        /* Định dạng Header */
+        header {
+            background-color: #e0e0e0; /* Màu nền xám nhạt */
+            color: #0d425d; /* Màu chữ */
+            display: flex; /* Dùng flex để căn đều các mục trong header */
+            justify-content: space-between; /* Căn đều hai bên trái và phải */
+            padding: 10px 30px; /* Khoảng đệm trong */
+            height: 65px; /* Chiều cao của header */
+            align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+            position: fixed; /* Cố định header trên cùng màn hình */
+            left: 0;
+            top: 0;
+            right: 0;
+            z-index: 1000; /* Đảm bảo header nằm trên các phần tử khác */
+
+        }
+
+        /* Logo */
+        .logo img { 
+            max-width: 150px;
+            margin-top: 10px;
+        }
+
+        /* Định dạng Menu */
+        .menu ul { 
+            display: flex;
+            list-style: none; 
+        }
+        .menu ul li { 
+            padding: 0 10px; /* Khoảng đệm ngang giữa các mục menu chính */
+            margin-right: 50px; 
+            position: relative; 
+        }
+        .menu a {
+            color: #0d425d; 
+            text-decoration: none; 
+            font-size: 18px; 
+            font-weight: bold; 
+        }
+        .sub-menu {
+            display: none;
+            opacity: 0; /* Ban đầu ẩn menu con */
+            visibility: hidden; /* Ẩn hoàn toàn */
+            position: absolute;
+            top: 80%;
+            left: 0;
+            background: #f9f9f9;
+            padding: 30px 0; /* Khoảng đệm dọc */
+            border: 1px solid #1e1d1d; /* Viền xám nhạt */
+            z-index: 1000; /* Đảm bảo menu con nằm trên các phần tử khác */
+            min-width: 180px; /* Chiều rộng tối thiểu cho menu con */
+        }
+        /* Định dạng cho các mục con */
+        .sub-menu li {
+         padding: 30px; /* Khoảng đệm cho các mục con */
+         margin-bottom: 15px; /* Khoảng cách giữa các mục */
+         border-bottom: 1px solid #ddd; /* Đường viền dưới giữa các mục con */
+         }
+
+        .menu ul li:hover .sub-menu { 
+            display: block; 
+        }
+        .sub-menu a {
+            color: #292b2c; 
+            font-size: 16px; 
+            font-weight: bold; 
+        }
+        .sub-menu a:hover { color: #0078d7; }
+        /* Hiển thị menu con khi di chuột vào mục cha */
+        .menu > ul > li:hover .sub-menu {
+         margin-top: 25px;
+        display: block; /* Hiển thị menu con */
+        opacity: 1; /* Làm mờ dần */
+        visibility: visible; /* Cho phép hiển thị */
+        }   
+
+
+        /* Định dạng phần khác */
+        .other {
+            display: flex;
+            align-items: center;
+        }
+        .other input {
+            width: 180px;
+            height: 30px;
+            padding: 5px;
+            margin-right: 30px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .other img {
+            margin-left: 10px; 
+        }
+        .other a {
+            color: #0d425d; 
+            margin-right: 20px;
+            font-size: 18px;
+            font-weight: bold; 
+            text-decoration: none; /* Xóa gạch chân cho liên kết */
+
+        }
+    
+        /* Định dạng cho giỏ hàng */
+        #cart {
+            position: relative; 
+        }
+
+        /* Định dạng cho số lượng giỏ hàng */
+        #cart-count {
+            position: absolute;
+            top: 15px; 
+            right: 25px; 
+            color: rgb(46, 44, 44); 
+            font-size: 12px; 
+            font-weight: bold; 
+            min-width: 20px; /* Đảm bảo chiều rộng tối thiểu cho số lượng */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="anhlogo.jpg" alt="Logo Nội thất Bắc Âu" style="width: 120px;">
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="#">Phòng</a>
+                    <ul class="sub-menu">
+                        <li><a href="#">Phòng khách</a></li>
+                        <li><a href="#">Phòng ngủ</a></li>
+                        <li><a href="#">Phòng ăn</a></li>
+                        <li><a href="#">Phòng làm việc</a></li>
+                    </ul>
+                </li>
+                <li><a href="khuyenmai.html">Khuyến mại</a></li>
+                <li><a href="blog.html">Blog</a></li>
+            </ul>
+        </div>
+        <div class="other">
+            <input type="text" placeholder="Tìm kiếm..."> 
+            <a href="dangnhap.html">
+                <img src="Font Awesome/user-solid.svg" style="width: 15px; height: auto;" class="icon" >
+                Đăng nhập
+            </a>
+            <a href="#">
+                <img src="Font Awesome/cart-shopping-solid.svg" style="width: 20px; height: auto;" class="icon" >
+                <span id="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+        <main>
+            <div class="container">
+                <div class="news-detail-section">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <h1 class="news-detail-title">Tiêu chí lựa chọn bàn ghế làm việc phù hợp với vóc dáng</h1>
+                            <div class="news-detail-subtitle">
+                                <div class="account">Tác giả: <span>thùy</span></div>
+                                <div class="text">-</div>
+                                <div class="date">Ngày đăng: 13/06/2004</div>
+                            </div>
+                            <style>
+                                .news-detail-title {
+                                    font-family: Arial, sans-serif;
+                                    font-size: 32px;
+                                    color: #2c3e50;
+                                    margin: 80px 0 20px; /* Khoảng cách phía trên tăng lên để tránh che khuất */
+                                    line-height: 1.2;
+                                    text-align: left;
+                                    font-weight: bold;
+                                }
+            
+                                .news-detail-subtitle {
+                                    margin-bottom: 20px;
+                                }
+            
+                                .account {
+                                    font-family: Arial, sans-serif;
+                                    font-size: 14px;
+                                    color: #333;
+                                    margin-bottom: 4px;
+                                }
+            
+                                .account span {
+                                    font-weight: bold;
+                                }
+            
+                                .text {
+                                    font-size: 14px;
+                                    color: #777;
+                                    margin: 0 4px;
+                                }
+            
+                                .date {
+                                    font-size: 14px;
+                                    color: #555;
+                                    margin-top: 4px;
+                                }
+                            </style>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="article-content">
+                <p>Bạn đã bao giờ tự hỏi tại sao việc chọn một bộ bàn ghế làm việc lại quan trọng đến vậy? Thời gian bạn dành tại văn phòng, trường học, hoặc góc làm việc tại nhà thường kéo dài khoảng 8 tiếng mỗi ngày. Vì vậy, việc lựa chọn một bộ bàn ghế làm việc thoải mái và phù hợp là vô cùng cần thiết để đảm bảo sức khỏe và sự thoải mái trong quá trình làm việc hoặc học tập. </p>
+
+                <p style="text-align: center;">
+                    <img alt="" src="/ảnh/blog6/1.jpg" />
+                    <p style="text-align: center;font-style: italic;">Việc có một bộ bàn ghế làm việc phù hợp không chỉ là một sự thoải mái mà còn là một sự đầu tư quan trọng vào sức khỏe và hiệu suất làm việc của bạn.</p>                   
+                </p>
+                <h3>6 lý do nên đầu tư cho bản thân một bộ bàn ghế làm việc</h3>
+                <h4>1.Sức khỏe được bảo vệ:</h4>
+                    <p style="text-align: center;">
+                        <img alt="" src="/ảnh/blog6/2.jpg" />
+                    <p style="text-align: center;font-style: italic;">Một bộ bàn ghế làm việc có thiết kế Ergonomic (công thái học) đặc biệt là ghế văn phòng được tối ưu hóa để hỗ trợ lưng và cổ của bạn</p>  
+                    </p>
+                <p>Dành cho những ai chưa biết, Ergonomic còn được biết tới với cụm từ công thái học và đang được áp dụng rộng rãi, đặc biệt là trong lĩnh vực nội thất văn phòng. Nếu như khái niệm Ergonomic quá lạ lẫm thì khái niệm công thái học được nhiều người biết tới hơn. Đặc biệt là trong ngành nghiên cứu khoa học, nghiên cứu về con người và các yếu tố khác, về sự tác động qua lại lẫn nhau trong một hệ thống thuộc sản xuất vật chất. Người ta áp dụng những nguyên tắc, lý thuyết, dữ liệu để mang lại sự tiện nghi và giúp con người và vạn vật sẽ có sự hài hòa tốt nhất. Từ đó, con người có thể cải thiện và tối ưu vấn đề sức khỏe, công việc.</p>
+                    <p style="text-align: center;">
+                        <img alt="" src="/ảnh/blog6/3.jpg" />
+                    <p style="text-align: center;font-style: italic;">Những thiết kế bàn ghế làm việc ứng dụng công thái học đang được sử dụng rộng rãi trong nội thất văn phòng bởi những lợi ích mà nó mang lại.</p>                      
+                    </p>
+                <p>Theo đó, những sản phẩm nội thất được thiết kế dựa trên Ergonomic thường sẽ hỗ trợ giảm căng thẳng và đau lưng, đặc biệt là sau một ngày dài làm việc. Các thiết kế điều chỉnh độ cao và phần tựa lưng phù hợp với vóc dáng nên đảm bảo rằng bạn sẽ không phải chịu đựng các vấn đề liên quan đến sức khỏe.</p>
+                <h4>2.Tăng hiệu suất làm việc:</h4>
+                <p>Sự thoải mái trong khi làm việc có thể giúp tăng hiệu suất công việc. Khi bạn không phải lo lắng về đau lưng hoặc mệt mỏi, bạn có thể tập trung tốt hơn vào công việc, làm cho bạn trở nên hiệu quả hơn và hoàn thành nhiệm vụ một cách nhanh chóng.</p>
+                <h4>3.Tối ưu hóa và cải thiện sức khỏe tốt hơn:</h4>
+                <p>Đối với người làm việc tại văn phòng, một chiếc ghế làm việc tốt là không thể thiếu. Nhưng trong thời đại hiện nay với nhiều người làm việc tại nhà, việc có một bộ bàn ghế làm việc chất lượng là điều cần thiết, giúp bạn duy trì sự thoải mái và sức khỏe trong môi trường làm việc tại nhà.</p>
+                <h4>4.Tạo không gian làm việc chuyên nghiệp:</h4>
+                <p>Một bộ bàn ghế làm việc không chỉ là một dụng cụ làm việc mà còn là một phần của không gian làm việc của bạn. Đầu tư vào bàn ghế làm việc đẹp và phù hợp với trang trí nội thất của bạn có thể tạo ra không gian làm việc cá nhân độc đáo và thú vị.</p>
+                <h4>5.Đầu tư cho tương lai:</h4>
+                <p>Mua sắm bàn ghế làm việc là sự một đầu tư dài hạn. Khi bạn chọn một bộ bàn ghế chất lượng, bạn đang đầu tư vào sức khỏe của mình và sự thoải mái trong tương lai. Một chiếc ghế tốt có thể kéo dài tuổi thọ và đảm bảo rằng bạn sẽ không phải thay đổi ghế quá thường xuyên, tiết kiệm thời gian và tiền bạc.</p>
+                <h4>6. Tạo thói quen và tư thế ngồi đúng</h4>
+                <p>Duy trì tư thế ngồi đúng thường xuyên góp phần đem đến 9 lợi ích tốt cho sức khỏe như:</p>
+                <ol>
+                    <li style="text-align: left;">
+                     - Duy trì vóc dáng, giúp cột sống khỏe mạnh.
+                    </li>
+                    <li style="text-align: left;">
+                     - Giảm hao mòn của bề mặt khớp (điển hình như đầu gối), từ đó ngăn ngừa bệnh viêm thấp khớp khởi phát
+                    </li>
+                    <li style="text-align: left;">
+                     - Giảm đau lưng, căng cơ và một số vấn đề nhức mỏi khác do ngồi lâu.
+                    </li>
+                    <li style="text-align: left;">
+                    - Giảm căng thẳng cho dây chằng ở cột sống.
+                    </li>
+                    <li style="text-align: left;">
+                    - Ngăn không cho cột sống cố định ở vị trí bất thường, dẫn đến dị dạng.
+                    </li>
+                    <li style="text-align: left;">
+                    - Giữ cho xương và khớp ở đúng vị trí. Nhờ đó, các cơ được sử dụng đúng cách, hiệu quả hơn. Điều này cho phép cơ thể giảm tiêu hao năng lượng, hạn chế mệt mỏi và tăng khả năng tập trung.
+                       </li>      
+                    <li style="text-align: left;">
+                    - Giữ cân bằng cơ thể khi di chuyển và vận động thể thao.
+                       </li>
+                    <li style="text-align: left;">
+                    - Thúc đẩy lưu thông máu diễn ra tốt hơn.
+                       </li>
+                    <li style="text-align: left;">
+                    - Tư thế ngồi đúng giúp đường cong tự nhiên của cột sống được duy trì, đường thở cũng như hệ hô hấp giữ ở vị trí đúng. Qua đó, cung cấp oxy cần thiết cho não, hỗ trợ hít thở dễ dàng và nâng cao năng lượng tích cực suốt ngày dài.
+                    </li>                       
+                </ol>
+                
+                <h3>Quy tắc ngồi vào bàn làm việc</h3>
+                <p>Vị trí đặt bàn không đúng trong thời gian dài làm việc trước máy tính và chỉ nghỉ giải lao để uống cà phê hoặc ăn trưa sau này có thể dẫn đến cảm giác đau ở lưng. Vị trí đau có thể xảy ra giữa ở lưng hoặc ở lưng dưới. Nếu bạn dành vài giờ liên tục ở bàn làm việc thì tư thế ngồi rất quan trọng.</p>
+                <ol>
+                    <li style="text-align: left;">
+                     - Giữ lưng thẳng, không cúi người khi viết.
+                    </li>
+                    <li style="text-align: left;">
+                     - Bàn làm việc không đặt đối diện cửa ra vào.
+                    </li>
+                    <li style="text-align: left;">
+                     - Sau lưng có điểm tựa và không tạo lối đi phía sau.
+                    </li>
+                    <li style="text-align: left;">
+                    - Tránh kê bàn làm việc ở giữa phòng.
+                    </li>
+                    <li style="text-align: left;">
+                    - Không đặt bàn làm việc ở không gian kín.
+                    </li>
+                    <li style="text-align: left;">
+                    - Nên tránh ngồi dưới đèn chùm, xà ngang hoặc quạt trần.
+                       </li>      
+                    <li style="text-align: left;">
+                    - Không nên đặt bàn làm việc đối diện nhà vệ sinh..
+                       </li>                      
+                </ol>
+            
+                <h2>Có dùng chung bàn ghế văn phòng và bàn ghế học tập được không?</h2>
+                <p>Bàn ghế văn phòng và bàn ghế học tập có mục tiêu sử dụng và đặc điểm khác nhau. Bàn ghế văn phòng thường được thiết kế cho việc làm việc liên tục trong một thời gian dài, chú trọng vào sự thoải mái và hỗ trợ lưng. Trong khi đó, bàn ghế học tập thường được sử dụng trong thời gian ngắn hơn, với mục tiêu tập trung vào việc học tập và nhiệm vụ ngắn hạn.</p>
+                <h3>Đặc tính cần biết của bàn ghế làm việc văn phòng</h3>
+                    <p style="text-align: center;">
+                        <img alt=""src="/ảnh/blog6/4.jpg"/>
+                    <p style="text-align: center;font-style: italic;">Khi lựa chọn bàn ghế làm việc văn phòng bạn nên chú ý xem sản phẩm có cung cấp đầy đủ những vật dụng văn phòng không.</p>
+                    </p>
+                    <ol>
+                        <li style="text-align: left;">
+                         - Thiết kế Ergonomic: có nghĩa là khi bạn ngồi xuống, phần lưng sẽ cảm thấy dễ chịu dù ngồi lâu.
+                        </li>
+                        <li style="text-align: left;">
+                         - Điều chỉnh độ cao: ghế có thể điều chỉnh độ cao tùy ý để phù hợp với người sử dụng.
+                        </li>
+                        <li style="text-align: left;">
+                         - Bánh xe: Ghế có bánh xe để bạn có thể dễ dàng di chuyển, thông thường ghế làm việc có trọng lượng khá nặng.
+                        </li>
+                        <li style="text-align: left;">
+                        - Độ ngả lưng: Cho phép bạn có thể ngã lưng khi muốn kéo giãn người.
+                        </li>
+                    </ol>                                  
+                <h3>Những chỉ số tiêu chuẩn cần nhớ trong việc lựa chọn bàn ghế làm việc</h3>
+                    <p style="text-align: center;">
+                        <img alt=""src="/ảnh/blog6/5.jpg"/>
+                    <p style="text-align: center;font-style: italic;">Lựa chọn bàn ghế làm việc phù hợp với vóc dáng làm việc là một yếu tố quan trọng để đảm bảo sự thoải mái và hỗ trợ tốt cho cơ thể. </p> 
+                    </p>
+                <h4>Chiều cao của của từng loại bàn ghế:</h4>
+                    <p style="text-align: center;">
+                        <img alt=""src="/ảnh/blog6/6.jpg"/>
+                    <p style="text-align: center;font-style: italic;">Bàn ghế làm việc và bàn ghế học tập nhìn tương đối giống nhau nhưng thực tế lại vô cùng khác nhau. </p>                                                      
+                    </p>
+                <p>Bàn ghế văn phòng: Đối với bàn ghế văn phòng, chiều cao của ghế nên có thể điều chỉnh để phù hợp với chiều cao của bạn. Khi ngồi, đầu gối nên được đặt ở một góc 90 độ và đôi chân phải đặt chặt xuống mặt đất hoặc trên một nền ghế đặc biệt để hỗ trợ.</p>
+                <p>Bàn ghế học tập: Đối với bàn ghế học tập, nó cần phù hợp với chiều cao của bàn. Khi ngồi, bàn nên ở một chiều cao sao cho bạn có thể đặt cánh tay ở một góc 90 độ trên bàn mà không cần cúi xuống quá nhiều.</p>
+                <h4>Độ ngã của phần dựa lưng:</h4>
+                    <p style="text-align: center;">
+                        <img alt=""src="/ảnh/blog6/7.jpg"/>
+                    <p style="text-align: center;font-style: italic;">Ghế làm việc nên có một tựa lưng hỗ trợ lưng dưới (vùng hông) và lưng trên (vùng lưng) của bạn. </p>                                                       
+                    </p>
+                    <p style="text-align: center;">
+                        <img alt=""src="/ảnh/blog6/8.jpg"/>
+                    <p style="text-align: center;font-style: italic;">Tựa lưng nên có thể điều chỉnh theo độ cao và góc nghiêng để phù hợp với dáng vóc của bạn.</p> 
+                    </p>
+                <h4>Khoảng cách bàn đến đệm ngồi ghế:</h4>
+                <p>Khoảng cách từ mặt bàn đến lưng ghế nên phù hợp với chiều dài của đùi của bạn. Điều này đảm bảo rằng bạn có đủ không gian ngồi một cách thoải mái và không cảm thấy bí bách.</p>
+                <h4>Khoảng cách đặt chân:</h4>
+                <p>Bàn ghế làm việc nên có khoảng không gian rộng rãi để bạn có thể đặt chân một cách thoải mái và không bị cảm giác tê mỏi, đau gót chân sau một thời gian ngồi làm việc quá lâu.</p>
+                <h4>Khoảng cách quan sát:</h4>
+                <p>Là khoảng cách từ mặt bàn đến mắt bạn khi nhìn xuống, làm sao tạo cảm giác thoải mái và phù hợp để bạn có thể quan sát công việc, tối ưu thời gian và giảm thiểu việc phải cúi đầu quá nhiều!</p>
+                <h4>Thói quen ngồi:</h4>
+                <p>Nếu bạn có thói quen ngồi gác chân lên ghế hoặc ngồi quấn chân, hãy chọn bàn ghế có không gian đủ rộng để thực hiện các kiểu ngồi này mà không gặp khó khăn.</p>
+                <h4>Trải nghiệm trước khi mua:</h4>
+                <p>Ngày nay việc mua sắm online được nhiều người ưa chuộng hơn, tuy nhiên, có một số sản phẩm đặc thù khó có thể mua trên mạng. Trong đó có bàn ghế làm việc vì nó còn liên quan tới việc bạn cảm thấy thoải mái như thế nào? Kích thước có to quá so với ảnh mô tả? Diện mạo thật của sản phẩm có đúng với mô tả? Chế độ bảo hành đổi trả như thế nào? Và ti tỉ câu hỏi khác khiến bạn nên ra trực tiếp cửa hàng để trải nghiệm sản phẩm và đảm bảo rằng bạn cảm thấy thoải mái và hỗ trợ tốt cho cơ thể của mình.</p>
+                                
+                <h2>Hướng dẫn lựa chọn bàn ghế làm việc cụ thể:</h2>
+                <p>Phù hợp khả năng kinh tế: Đảm bảo rằng bạn chọn một chiếc ghế phù hợp với ngân sách của mình, nhưng đừng tiết kiệm quá mức và đánh đổi sự thoải mái.</p>
+                <p>Chọn ghế theo diện tích: Xác định không gian bạn có và chọn ghế sao cho phù hợp với không gian đó.</p>
+                <p>Phù hợp vóc dáng: Một chiếc ghế phải phù hợp với chiều cao, cân nặng, và vóc dáng của bạn để tạo cảm giác thoải mái khi sử dụng.</p>
+                <p>Phù hợp với vị trí công việc: Xem xét công việc bạn thường thực hiện để chọn ghế phù hợp với nhu cầu làm việc.</p>
+                <p>Chọn chất liệu ghế làm việc phù hợp: Chất liệu của ghế ảnh hưởng đến độ bền, thoải mái, và thẩm mỹ. Ví dụ, da thường đẹp và thoải mái, trong khi vải có thể giúp da thoát hơi tốt hơn.</p>
+                <p>Chọn địa chỉ cung cấp uy tín: Mua ghế làm việc tại các cửa hàng uy tín để đảm bảo chất lượng và dịch vụ sau bán hàng tốt.</p>
+
+
+
+
+
+</div>          
+<style>
+    .article-content {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        padding: 15px; /* Thêm khoảng cách bên trong khung nội dung */
+        border: 1px solid #ddd; /* Viền cho khung nội dung */
+        border-radius: 5px; /* Bo góc khung */
+        background-color: #f9f9f9; /* Màu nền cho khung nội dung */
+    }
+
+    .article-content p {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 12px;
+        text-align: justify; /* Căn đều cho đoạn văn */
+    }
+
+    .article-content h2,
+    .article-content h3 {
+        color: #2c3e50;
+        margin-top: 20px;
+    }
+
+    .article-content h2 {
+        font-size: 26px; /* Kích thước chữ cho tiêu đề h2 */
+        margin-bottom: 10px; /* Khoảng cách dưới tiêu đề h2 */
+    }
+
+    .article-content h3 {
+        font-size: 24px; /* Kích thước chữ cho tiêu đề h3 */
+        margin-bottom: 8px; /* Khoảng cách dưới tiêu đề h3 */
+    }
+
+    .article-content img {
+        max-width: 100%;
+        height: auto;
+        margin: 10px 0;
+        transition: transform 0.2s; /* Hiệu ứng chuyển động khi hover */
+    }
+
+    .article-content img:hover {
+        transform: scale(1.05); /* Phóng to hình ảnh khi hover */
+    }
+
+    .article-content ol {
+        margin-left: 20px; /* Khoảng cách bên trái cho danh sách có thứ tự */
+    }
+
+    .article-content ol li {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 8px;
+        position: relative; /* Để thêm hiệu ứng cho các mục */
+        padding-left: 20px; /* Thêm khoảng cách bên trái cho các mục */
+    }
+
+    .article-content ol li::marker {
+        color: #e74c3c; /* Màu cho số thứ tự của danh sách */
+        font-weight: bold; /* Làm nổi bật số thứ tự */
+    }
+</style>
+
+    </body>
+    </html>

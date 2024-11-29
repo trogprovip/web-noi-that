@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport content="width=device-width, initial-scale=1.0>
+    <link rel="stylesheet" href="styles.css">
+    <title>Nội thất Bắc Âu</title>
+    <style>
+        /* Cài đặt chung */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: Arial, sans-serif; 
+        }
+        
+        /* Định dạng Header */
+        header {
+            background-color: #e0e0e0; /* Màu nền xám nhạt */
+            color: #0d425d; /* Màu chữ */
+            display: flex; /* Dùng flex để căn đều các mục trong header */
+            justify-content: space-between; /* Căn đều hai bên trái và phải */
+            padding: 10px 30px; /* Khoảng đệm trong */
+            height: 65px; /* Chiều cao của header */
+            align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+            position: fixed; /* Cố định header trên cùng màn hình */
+            left: 0;
+            top: 0;
+            right: 0;
+            z-index: 1000; /* Đảm bảo header nằm trên các phần tử khác */
+
+        }
+
+        /* Logo */
+        .logo img { 
+            max-width: 150px;
+            margin-top: 10px;
+        }
+
+        /* Định dạng Menu */
+        .menu ul { 
+            display: flex;
+            list-style: none; 
+        }
+        .menu ul li { 
+            padding: 0 10px; /* Khoảng đệm ngang giữa các mục menu chính */
+            margin-right: 50px; 
+            position: relative; 
+        }
+        .menu a {
+            color: #0d425d; 
+            text-decoration: none; 
+            font-size: 18px; 
+            font-weight: bold; 
+        }
+        .sub-menu {
+            display: none;
+            opacity: 0; /* Ban đầu ẩn menu con */
+            visibility: hidden; /* Ẩn hoàn toàn */
+            position: absolute;
+            top: 80%;
+            left: 0;
+            background: #f9f9f9;
+            padding: 30px 0; /* Khoảng đệm dọc */
+            border: 1px solid #1e1d1d; /* Viền xám nhạt */
+            z-index: 1000; /* Đảm bảo menu con nằm trên các phần tử khác */
+            min-width: 180px; /* Chiều rộng tối thiểu cho menu con */
+        }
+        /* Định dạng cho các mục con */
+        .sub-menu li {
+         padding: 30px; /* Khoảng đệm cho các mục con */
+         margin-bottom: 15px; /* Khoảng cách giữa các mục */
+         border-bottom: 1px solid #ddd; /* Đường viền dưới giữa các mục con */
+         }
+
+        .menu ul li:hover .sub-menu { 
+            display: block; 
+        }
+        .sub-menu a {
+            color: #292b2c; 
+            font-size: 16px; 
+            font-weight: bold; 
+        }
+        .sub-menu a:hover { color: #0078d7; }
+        /* Hiển thị menu con khi di chuột vào mục cha */
+        .menu > ul > li:hover .sub-menu {
+         margin-top: 25px;
+        display: block; /* Hiển thị menu con */
+        opacity: 1; /* Làm mờ dần */
+        visibility: visible; /* Cho phép hiển thị */
+        }   
+
+
+        /* Định dạng phần khác */
+        .other {
+            display: flex;
+            align-items: center;
+        }
+        .other input {
+            width: 180px;
+            height: 30px;
+            padding: 5px;
+            margin-right: 30px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .other img {
+            margin-left: 10px; 
+        }
+        .other a {
+            color: #0d425d; 
+            margin-right: 20px;
+            font-size: 18px;
+            font-weight: bold; 
+            text-decoration: none; /* Xóa gạch chân cho liên kết */
+
+        }
+    
+        /* Định dạng cho giỏ hàng */
+        #cart {
+            position: relative; 
+        }
+
+        /* Định dạng cho số lượng giỏ hàng */
+        #cart-count {
+            position: absolute;
+            top: 15px; 
+            right: 25px; 
+            color: rgb(46, 44, 44); 
+            font-size: 12px; 
+            font-weight: bold; 
+            min-width: 20px; /* Đảm bảo chiều rộng tối thiểu cho số lượng */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="anhlogo.jpg" alt="Logo Nội thất Bắc Âu" style="width: 120px;">
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="#">Phòng</a>
+                    <ul class="sub-menu">
+                        <li><a href="#">Phòng khách</a></li>
+                        <li><a href="#">Phòng ngủ</a></li>
+                        <li><a href="#">Phòng ăn</a></li>
+                        <li><a href="#">Phòng làm việc</a></li>
+                    </ul>
+                </li>
+                <li><a href="khuyenmai.html">Khuyến mại</a></li>
+                <li><a href="blog.html">Blog</a></li>
+            </ul>
+        </div>
+        <div class="other">
+            <input type="text" placeholder="Tìm kiếm..."> 
+            <a href="dangnhap.html">
+                <img src="Font Awesome/user-solid.svg" style="width: 15px; height: auto;" class="icon" >
+                Đăng nhập
+            </a>
+            <a href="#">
+                <img src="Font Awesome/cart-shopping-solid.svg" style="width: 20px; height: auto;" class="icon" >
+                <span id="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+        <main>
+            <div class="container">
+                <div class="news-detail-section">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <h1 class="news-detail-title">7 Cách chọn bàn ăn phù hợp cho phòng ăn</h1>
+                            <div class="news-detail-subtitle">
+                                <div class="account">Tác giả: <span>thùy</span></div>
+                                <div class="text">-</div>
+                                <div class="date">Ngày đăng: 13/06/2004</div>
+                            </div>
+                            <style>
+                                .news-detail-title {
+                                    font-family: Arial, sans-serif;
+                                    font-size: 32px;
+                                    color: #2c3e50;
+                                    margin: 80px 0 20px; /* Khoảng cách phía trên tăng lên để tránh che khuất */
+                                    line-height: 1.2;
+                                    text-align: left;
+                                    font-weight: bold;
+                                }
+            
+                                .news-detail-subtitle {
+                                    margin-bottom: 20px;
+                                }
+            
+                                .account {
+                                    font-family: Arial, sans-serif;
+                                    font-size: 14px;
+                                    color: #333;
+                                    margin-bottom: 4px;
+                                }
+            
+                                .account span {
+                                    font-weight: bold;
+                                }
+            
+                                .text {
+                                    font-size: 14px;
+                                    color: #777;
+                                    margin: 0 4px;
+                                }
+            
+                                .date {
+                                    font-size: 14px;
+                                    color: #555;
+                                    margin-top: 4px;
+                                }
+                            </style>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="article-content">
+                <p>Yếu tố gì khiến bạn quyết định bỏ tiền để mua một bộ bàn ăn cho gia đình. Giá cả, nhu cầu hay về kiểu dáng… Việc lựa chọn bộ bàn ăn phù hợp, đáp ứng được mọi tiêu không hề là việc dễ dàng. Theo đó, hãy cùng JYSK đọc qua 7 cách chọn bàn ăn phù hợp cho phòng ăn nhà bạn nhé! </p>
+
+                <p style="text-align: center;">
+                    <img alt="" src="/ảnh/blog5/1.jpg" />
+                    <p style="text-align: center;font-style: italic;">Không chỉ là nơi ăn uống, bàn ăn còn là nơi chứa đựng kỷ niệm của gia đình bởi những cuộc họp mặt đầy ý nghĩa.</p>
+                    
+                </p>
+                <h2>Chọn bàn ăn phù hợp với phòng ăn gia đình quan trọng như thế nào?</h2>
+                <p>Nhắc tới bữa cơm gia đình, chúng ta thường nghĩ ngay đến những bữa cơm ấm cúng xoay quanh gia đình. Nơi những người thân ngồi cùng nhau, chia sẻ câu chuyện trong ngày và cùng thưởng thức bữa cơm ngon lành mẹ nấu. Cũng có gia đình, giờ ăn là lúc mọi người cùng nhau chuẩn bị, cùng nhau thưởng thức bữa cơm và cùng xem chương trình thời sự quen thuộc mỗi tối… Tuy nhiên, để có những bữa cơm như thế thì sự góp mặt của bộ bàn ghế ăn là vô cùng cần thiết.</p>
+                <p style="text-align: center;"><img alt=""src="/ảnh/blog5/2.jpg"/>
+                    <p style="text-align: center;font-style: italic;">“Cách chọn bàn ăn phù hợp” nghe qua tưởng đơn giản, song thực tế lại không đơn giản như vậy. Nhất là khi bạn bị hạn chế về kinh tế, diện tích ngôi nhà và yêu cầu về mặt thẩm mỹ cao.</p> 
+                </p>
+                    
+                <h2>Lợi ích của việc chọn đúng bàn ăn phù hợp với phòng ăn gia đình</h2>
+                <p>Việc lựa chọn đúng sản phẩm bàn ăn phù hợp với gia đình sẽ giúp bạn tối ưu hóa được chi phí mua sắm bàn ghế. Còn giúp người sử dụng ngồi ăn uống với một không gian rộng rãi, thoải mái và tiện nghi.</p>
+                <h3>Đảm bảo bố cục thiết kế nội thất trong căn bếp:</h3>
+                <p>Bàn ăn còn là một đồ nội thất giúp không gian gia đình thêm đầy đủ và tiện nghi hơn. Phòng ăn, nhà bếp sẽ bớt trống trải hơn. Bên cạnh đó, chúng ta cũng có thể sử dụng bàn ăn để tranh thủ làm việc, nghỉ ngơi khi cần thiết điều này cũng rất tiện lợi. Trong không gian căn bếp, kích thước của các món đồ nội thất luôn chiếm tỷ lệ nhất định, nhằm đáp ứng cân bằng được bố cục thiết kế. Ngoài ra việc này tạo nên sự hài hòa ngăn nắp cho căn bếp.</p>    
+                    <p style="text-align: center;">
+                        <img alt=""src="/ảnh/blog5/3.jpg"/>
+                    <p style="text-align: center;font-style: italic;">Đối với các gia đình có trẻ nhỏ thì chúng ta có thể cho con ngồi chơi ở bàn ăn để có thể vừa làm công việc vừa quan sát con yêu của mình.</p> 
+                <h3>Giúp chúng ta duy trì thói quen tốt</h3>                    
+                    </p>
+                <p> Bộ bàn ăn còn có ý nghĩa quan trọng với sức khỏe của con người. Khi ngồi ăn tại bàn ăn cùng gia đình chúng ta sẽ tạo được thói quen tốt không bỏ bữa, đặc biệt là với trẻ nhỏ. Điều này đặc biệt quan trọng để chúng ta có thể giữ gìn được sức khỏe tốt. Dạy cho con trẻ biết được ăn đúng bữa là điều cần thiết để có thể tránh được nguy cơ mắc các bệnh về tiêu hóa, béo phì, viêm đại tràng,…</p>
+                <h3>Giúp đem lại sự thoải mái khi sử dụng:</h3>
+                <p>Khi lựa chọn được bộ bàn ăn đúng kích cỡ, phù hợp với chiều cao sẽ giúp cả gia đình cảm thấy thoải mái và thuận tiện hơn trong việc sử dụng. Điều này cũng hỗ trợ đến sức khỏe đặc biệt là phần cột sống, không gây tác động xấu đến các đốt sống lưng, cổ.</p>
+                <h3>Giúp cân bằng phong thủy nội thất:</h3>
+                    <p style="text-align: center;">
+                        <img alt=""src="/ảnh/blog5/4.jpg"/>
+                    <p style="text-align: center;font-style: italic;">Bàn ghế ăn được xem là một vật dụng quan trọng trong việc tạo ra phong thủy tốt cho gia chủ. Với một bộ bàn ghế kích thước phù hợp sẽ mang lại sự cân bằng âm – dương, giúp kết nối gia đình, tạo cơ đồ thịnh vượng nhất.</p> 
+                    </p>
+                <p>Như vậy, bộ bàn ăn đã trở thành một phần không thể thiếu đối với mỗi gia đình. Nó là nơi mà các thành viên trong gia đình có thể tụ họp đông đủ, cùng nhau ăn bữa cơm đầm ấm, bỏ mặc ngoài kia những muộn phiền, căng thẳng của công việc, cuộc sống và thoải mái hơn. </p>
+                <h2>7 cách chọn bàn ăn phù hợp cho phòng ăn</h2>
+                <h3>Bước 1: Đo diện tích không gian phòng an</h3>
+                <p>Đừng yêu một thiết kế chỉ để “tìm ra” cách để làm cho nó hoạt động. Hãy tiết kiệm thời gian (và đau lòng) và thay vào đó hãy thiết lập một không gian khả thi cho bàn ăn mới của bạn. Đo chiều dài và chiều rộng của không gian được phân bổ của bạn. Sau đó trừ đi 80-100cm từ mỗi chiều. Tại sao?</p>
+                <p>Để tránh một môi trường ăn uống chật chội và không thân thiện, lý tưởng nhất là bàn của bạn sẽ cần không gian khoảng 90cm ở mọi phía. Nếu bạn có một căn phòng rất nhỏ hoặc một không gian có nhiều mục đích sử dụng, hãy xem xét một thiết kế có thể chuyển đổi - chẳng hạn như một thiết kế có thể biến thành bàn cà phê hoặc bàn điều khiển.</p>
+                <h3>Bước 2: Tạo bảng ý tưởng</h3>
+                <p>Cái này không được cố định bằng đá, nhưng dù muốn hay không, một số hình dạng bàn nhất định sẽ hoạt động tốt hơn trong một số hình dạng phòng nhất định.
+                    Nguyên tắc chung là:</p>                
+                <p style="text-align: center;">
+                    <img alt=""src="/ảnh/blog5/5.jpg"/>
+                <p style="text-align: center;font-style: italic;">Mặt bàn hình vuông và hình tròn phù hợp với những căn phòng hình vuông. Nhưng bàn sẽ trông không hợp trong không gian hình chữ nhật. Bàn hình chữ nhật và hình bầu dục phù hợp nhất với phòng hình chữ nhật. Nhưng sẽ trông có vẻ lúng túng trong không gian hình vuông.</p> 
+                </p>
+                  
+                <h3>Bước 3: Lên ý tưởng trang trí</h3>
+                <p>Các chuyên gia thiết kế nội thất truyền đạt ý tưởng và khái niệm với khách hàng của họ bằng nhiều cách. Mặc dù công nghệ kỹ thuật số đã góp phần tạo ra một số “moodboard” khá ấn tượng và sáng tạo, nhưng bạn vẫn có thể tạo nên một bản concept ý tưởng thiết kế nội thất phòng ăn đẹp của chính mình</p>
+                <p style="text-align: center;">
+                    <img alt="" src="/ảnh/blog5/6.jpg" />
+                    <p style="text-align: center;font-style: italic;">Hãy thử đặt bàn và thêm một chút decor trang trí xung quanh sẽ là cách giúp bạn tiết kiệm thời gian thực hiện.</p> 
+                </p>
+                <h3>Bước 4: Lựa chọn bàn có thiết kế phù hợp</h3>
+                <p>Sẽ thế nào nếu bạn thử sử dụng một chiếc bàn mở rộng, tương đối tiết kiệm không gian khi không làm việc. Đây có thể là một lựa chọn tốt nhất của bạn. Nếu sản phẩm bạn lựa chọn đề cao công năng đa dạng và có thiết kế tối giản thì có thể tham khảo những đề xuất về chất liệu mặt bàn: </p>
+                <ol>
+                    <li style="text-align: left;">
+                        Chất liệu gốm chịu nhiệt và chống trầy xước.
+                    </li>
+                    <li style="text-align: left;">
+                        Chất liệu gỗ hoặc kính nguyên khối/ kính cường lực siêu bền và chống trầy xước.
+                    </li>
+                    <li style="text-align: left;">
+                        Chất liệu Veneer cũng có thể sử dụng lâu bền trong nhiều năm nhưng hãy chắc chắn rằng đó là veneer gỗ thật và mỏng. Vì theo thời gian, veneer dày có thể dễ bị bong tróc.
+                    </li>                    
+                </ol>
+                <h3>Bước 5: Lựa chọn màu sắc</h3>              
+                <p>Màu sắc là một yếu tố quan trọng trong sự phối hợp của một ngôi nhà tuyệt vời. Nhưng tuổi thọ của bàn ăn có nghĩa là nó phải có khả năng hoạt động theo các chủ đề thay đổi. Những gam màu chủ đạo như đen, xám, nâu và trắng sẽ luôn là xu hướng.</p>
+                    <p style="text-align: center;"><img alt="" src="/ảnh/blog5/7.jpg" />
+                        <p style="text-align: center;font-style: italic;">Lựa chọn bàn ăn có tông màu nhã nhặn, dễ phối sẽ mang tới ưu điểm đó là xài được quanh năm. Tuy nhiên nếu nhà bạn có trẻ con thì lời khuyên đó là hãy tránh những màu tươi sáng như các loại gỗ có màu trắng mờ và sáng màu.</p> 
+                    </p>
+                <h3>Bước 6: Xem xét phần chân đế bàn ăn</h3>
+                <p>Tưởng không liên quan, nhưng thực tế đây chính phần quyết định tính thẩm mỹ cho ngôi nhà bạn. Nhưng chân đế của bàn ăn mới sẽ ảnh hưởng đến cách bạn sử dụng nó. Nếu phòng ăn của bạn nhỏ và bạn muốn tối đa hóa chỗ ngồi thì hãy chọn thiết kế có chân bàn mỏng để tránh thực khách chạm đầu gối vào chân bàn. Mặt bàn lớn có thể hứa hẹn không gian rộng rãi nhưng vẫn thu gọn nó bằng khung cồng kềnh.</p>
+                <h3>Bước 7: Nên mua bàn ăn ở những nơi cho dùng thử</h3>                   
+                <p>Thời điểm hiện tại mua sắm trực tuyến đang là xu hướng, tuy nhiên, với những sản phẩm có tính đặc thù như bàn ăn hay giường ngủ thì việc xem trực tiếp tại các cửa hàng là điều quan trọng và giúp bạn đỡ phải lo lắng. Liệu rằng chiếc bàn mới mua có phù hợp với không gian ngôi nhà? Hay kích thước thực tế có chênh lệch nhiều so với trên thông tin sản phẩm? Liệu chất lượng sản phẩm có thực sự chất lượng giống như mô tả?... và ti tỉ câu hỏi khác sẽ xuất hiện trong khoảng thời gian bạn chờ đợi bàn về tay. </p>
+                    <p style="text-align: center;">
+                        <img alt="" src="/ảnh/blog5/8.jpg" />
+                    <p style="text-align: center;font-style: italic;">Do đó, việc ra cửa hàng ngồi thử, chạm thử và đo đạc sản phẩm, kiểm tra dấu hiệu hao mòn... là vô cùng cần thiết.</p> 
+                    </p>
+            
+                <h2>Lựa chọn kích thước bàn ăn theo tiêu chuẩn của người Việt</h2>
+                <p>Tham khảo kích thước bàn ghế ăn tiêu chuẩn đó chính là: chiều cao, chiều rộng và chiều dài của bàn và ghế ăn. Cụ thể:</p>
+                <ol>
+                    <li style="text-align: left;">
+                        - Chiều cao tiêu chuẩn của bàn ăn tính từ chân bàn lên đến mặt  là 750mm..
+                    </li>
+                    <li style="text-align: left;">
+                        - Kích thước từ chân bàn đến khung bàn tối thiểu là 600cm để tạo không gian thoải mái nhất khi ngồi tránh bị đụng đầu gối.
+                    </li>
+                    <li style="text-align: left;">
+                        - Khoảng cách tối thiểu giữa 2 ghế bàn ăn tối thiểu từ 680-750mm tránh bị gò bó khi ngồi ăn.
+                    </li>
+                    <li style="text-align: left;">
+                        - Bề rộng ghế ngồi tiêu chuẩn từ 450-500mm, tiêu chuẩn chiều sâu từ 420-450mm, chiều cao của ghế ngồi tối thiểu 450mm, chiều cao lưng ghế là 900mm.
+                    </li>
+                    <li style="text-align: left;">
+                        - Phần lưng ghế ăn phải có góc nghiêng từ 10-15 độ tạo điểm tựa người thoải mái.
+                    </li>
+                    <li style="text-align: left;">
+                        - Nếu sử dụng ghế có tay thì chiều cao tính từ mặt ghế ngồi đến chỗ gác tay nên từ 180-240mm.
+                    </li>                   
+                </ol>
+                    <p style="text-align: center;"><img alt="" src="/ảnh/blog5/9.jpg" />
+                        <p style="text-align: center;font-style: italic;">Còn về kích khác như chiều rộng, chiều dài, đường kính còn phụ thuộc vào kiểu bàn ăn và số người (số ghế).</p>   
+                    </p>
+                <h2>Gợi ý một số sản phẩm bàn ăn phù hợp cho gia đình</h2>
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog5/10.jpg" />
+                    <p style="text-align: center; font-style: italic;">Một số mẫu bàn ăn đẹp phong cách Bắc Âu</p> 
+                </p>
+                  
+
+</div>          
+<style>
+    .article-content {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        padding: 15px; /* Thêm khoảng cách bên trong khung nội dung */
+        border: 1px solid #ddd; /* Viền cho khung nội dung */
+        border-radius: 5px; /* Bo góc khung */
+        background-color: #f9f9f9; /* Màu nền cho khung nội dung */
+    }
+
+    .article-content p {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 12px;
+        text-align: justify; /* Căn đều cho đoạn văn */
+    }
+
+    .article-content h2,
+    .article-content h3 {
+        color: #2c3e50;
+        margin-top: 20px;
+    }
+
+    .article-content h2 {
+        font-size: 26px; /* Kích thước chữ cho tiêu đề h2 */
+        margin-bottom: 10px; /* Khoảng cách dưới tiêu đề h2 */
+    }
+
+    .article-content h3 {
+        font-size: 24px; /* Kích thước chữ cho tiêu đề h3 */
+        margin-bottom: 8px; /* Khoảng cách dưới tiêu đề h3 */
+    }
+
+    .article-content img {
+        max-width: 100%;
+        height: auto;
+        margin: 10px 0;
+        transition: transform 0.2s; /* Hiệu ứng chuyển động khi hover */
+    }
+
+    .article-content img:hover {
+        transform: scale(1.05); /* Phóng to hình ảnh khi hover */
+    }
+
+    .article-content ol {
+        margin-left: 20px; /* Khoảng cách bên trái cho danh sách có thứ tự */
+    }
+
+    .article-content ol li {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 8px;
+        position: relative; /* Để thêm hiệu ứng cho các mục */
+        padding-left: 20px; /* Thêm khoảng cách bên trái cho các mục */
+    }
+
+    .article-content ol li::marker {
+        color: #e74c3c; /* Màu cho số thứ tự của danh sách */
+        font-weight: bold; /* Làm nổi bật số thứ tự */
+    }
+</style>
+
+    </body>
+    </html>

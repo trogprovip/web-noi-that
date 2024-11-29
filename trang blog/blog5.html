@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport content="width=device-width, initial-scale=1.0>
+    <link rel="stylesheet" href="styles.css">
+    <title>Nội thất Bắc Âu</title>
+    <style>
+        /* Cài đặt chung */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: Arial, sans-serif; 
+        }
+        
+        /* Định dạng Header */
+        header {
+            background-color: #e0e0e0; /* Màu nền xám nhạt */
+            color: #0d425d; /* Màu chữ */
+            display: flex; /* Dùng flex để căn đều các mục trong header */
+            justify-content: space-between; /* Căn đều hai bên trái và phải */
+            padding: 10px 30px; /* Khoảng đệm trong */
+            height: 65px; /* Chiều cao của header */
+            align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+            position: fixed; /* Cố định header trên cùng màn hình */
+            left: 0;
+            top: 0;
+            right: 0;
+            z-index: 1000; /* Đảm bảo header nằm trên các phần tử khác */
+
+        }
+
+        /* Logo */
+        .logo img { 
+            max-width: 150px;
+            margin-top: 10px;
+        }
+
+        /* Định dạng Menu */
+        .menu ul { 
+            display: flex;
+            list-style: none; 
+        }
+        .menu ul li { 
+            padding: 0 10px; /* Khoảng đệm ngang giữa các mục menu chính */
+            margin-right: 50px; 
+            position: relative; 
+        }
+        .menu a {
+            color: #0d425d; 
+            text-decoration: none; 
+            font-size: 18px; 
+            font-weight: bold; 
+        }
+        .sub-menu {
+            display: none;
+            opacity: 0; /* Ban đầu ẩn menu con */
+            visibility: hidden; /* Ẩn hoàn toàn */
+            position: absolute;
+            top: 80%;
+            left: 0;
+            background: #f9f9f9;
+            padding: 30px 0; /* Khoảng đệm dọc */
+            border: 1px solid #1e1d1d; /* Viền xám nhạt */
+            z-index: 1000; /* Đảm bảo menu con nằm trên các phần tử khác */
+            min-width: 180px; /* Chiều rộng tối thiểu cho menu con */
+        }
+        /* Định dạng cho các mục con */
+        .sub-menu li {
+         padding: 30px; /* Khoảng đệm cho các mục con */
+         margin-bottom: 15px; /* Khoảng cách giữa các mục */
+         border-bottom: 1px solid #ddd; /* Đường viền dưới giữa các mục con */
+         }
+
+        .menu ul li:hover .sub-menu { 
+            display: block; 
+        }
+        .sub-menu a {
+            color: #292b2c; 
+            font-size: 16px; 
+            font-weight: bold; 
+        }
+        .sub-menu a:hover { color: #0078d7; }
+        /* Hiển thị menu con khi di chuột vào mục cha */
+        .menu > ul > li:hover .sub-menu {
+         margin-top: 25px;
+        display: block; /* Hiển thị menu con */
+        opacity: 1; /* Làm mờ dần */
+        visibility: visible; /* Cho phép hiển thị */
+        }   
+
+
+        /* Định dạng phần khác */
+        .other {
+            display: flex;
+            align-items: center;
+        }
+        .other input {
+            width: 180px;
+            height: 30px;
+            padding: 5px;
+            margin-right: 30px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .other img {
+            margin-left: 10px; 
+        }
+        .other a {
+            color: #0d425d; 
+            margin-right: 20px;
+            font-size: 18px;
+            font-weight: bold; 
+            text-decoration: none; /* Xóa gạch chân cho liên kết */
+
+        }
+    
+        /* Định dạng cho giỏ hàng */
+        #cart {
+            position: relative; 
+        }
+
+        /* Định dạng cho số lượng giỏ hàng */
+        #cart-count {
+            position: absolute;
+            top: 15px; 
+            right: 25px; 
+            color: rgb(46, 44, 44); 
+            font-size: 12px; 
+            font-weight: bold; 
+            min-width: 20px; /* Đảm bảo chiều rộng tối thiểu cho số lượng */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="anhlogo.jpg" alt="Logo Nội thất Bắc Âu" style="width: 120px;">
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="#">Phòng</a>
+                    <ul class="sub-menu">
+                        <li><a href="#">Phòng khách</a></li>
+                        <li><a href="#">Phòng ngủ</a></li>
+                        <li><a href="#">Phòng ăn</a></li>
+                        <li><a href="#">Phòng làm việc</a></li>
+                    </ul>
+                </li>
+                <li><a href="khuyenmai.html">Khuyến mại</a></li>
+                <li><a href="blog.html">Blog</a></li>
+            </ul>
+        </div>
+        <div class="other">
+            <input type="text" placeholder="Tìm kiếm..."> 
+            <a href="dangnhap.html">
+                <img src="Font Awesome/user-solid.svg" style="width: 15px; height: auto;" class="icon" >
+                Đăng nhập
+            </a>
+            <a href="#">
+                <img src="Font Awesome/cart-shopping-solid.svg" style="width: 20px; height: auto;" class="icon" >
+                <span id="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+        <main>
+            <div class="container">
+                <div class="news-detail-section">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <h1 class="news-detail-title">Hướng dẫn đầy đủ cách chọn sofa "chuẩn" cho từng kiểu phòng khách</h1>
+                            <div class="news-detail-subtitle">
+                                <div class="account">Tác giả: <span>Thuy Team</span></div>
+                                <div class="text">-</div>
+                                <div class="date">Ngày đăng: Sinh Nhật Thùy</div>
+                            </div>
+                            <style>
+                                .news-detail-title {
+                                    font-family: Arial, sans-serif;
+                                    font-size: 32px;
+                                    color: #2c3e50;
+                                    margin: 80px 0 20px; /* Khoảng cách phía trên tăng lên để tránh che khuất */
+                                    line-height: 1.2;
+                                    text-align: left;
+                                    font-weight: bold;
+                                }
+            
+                                .news-detail-subtitle {
+                                    margin-bottom: 20px;
+                                }
+            
+                                .account {
+                                    font-family: Arial, sans-serif;
+                                    font-size: 14px;
+                                    color: #333;
+                                    margin-bottom: 4px;
+                                }
+            
+                                .account span {
+                                    font-weight: bold;
+                                }
+            
+                                .text {
+                                    font-size: 14px;
+                                    color: #777;
+                                    margin: 0 4px;
+                                }
+            
+                                .date {
+                                    font-size: 14px;
+                                    color: #555;
+                                    margin-top: 4px;
+                                }
+                            </style>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="article-content">
+                <p>Làm thế nào để chọn ghế sofa chuẩn cho phòng khách? Chính là câu hỏi được nhiều người quan tâm. Bởi ghế sofa không chỉ là món đồ nội thất bọc nệm mà đây chính là trung tâm của phòng khách. Nơi các thành viên trong gia đình thư giãn cùng nhau, nơi tụ tập bạn bè vào các dịp cuối tuần.</p>
+                
+                <p style="text-align: center;">
+                    <img alt="" src="/ảnh/blog3/1.jpg" />
+                </p>
+                
+                <p style="text-align: center;">Cùng Thùy xem xét các yếu tố cần cân nhắc trước khi đầu tư vào chiếc ghế sofa mới cho gia đình bạn. Ảnh: JYSK</p>
+                
+                <p>Có thể thấy, sofa không chỉ giúp tăng diện mạo cho ngôi nhà mà còn phục vụ nhiều nhu cầu sử dụng của gia chủ. Tuy nhiên, làm thế nào để chọn được ghế sofa phù hợp với thiết kế ngôi nhà thì trong hướng dẫn dưới đây, JYSK sẽ gợi ý bạn cách chọn ghế sofa chuẩn, cũng như tìm hiểu từng loại hình sofa hot nhất hiện nay.</p>
+                
+                <h2>Tổng hợp chi tiết cách chọn ghế sofa chuẩn</h2>
+                
+                <h3>Kích thước và vị trí: Nên đặt ghế sofa ở đâu?</h3>
+                <p>Khi chọn ghế sofa 2-3 chỗ ngồi hay sofa giường, điều rất quan trọng là bạn nên xem nên vị trí phù hợp để đặt chúng trong phòng.</p>
+                
+                <ol>
+                    <li>Trường hợp 1: Với phòng khách nhỏ, bạn nên cân nhắc dòng sofa 2 chỗ ngồi, tiện cho những buổi tụ tập nhỏ nhưng không chiếm quá nhiều không gian.</li>
+                    <li>Trường hợp 2: Với những phòng khách rộng rãi, bạn có thể tham khảo những mẫu sofa có kích thước lớn hơn. Chẳng hạn như ghế sofa 3 chỗ hoặc sofa góc. Cả hai loại hình sofa này đều lý tưởng dùng cho phòng khách rộng, vừa trang trí vừa tạo ra bầu không khí ấm cúng và thư giãn.</li>
+                </ol>
+
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog3/2.jpg" /></p>
+              <p style="text-align: center;">Kích thước của ghế sofa phụ thuộc vào vị trí trong phòng bạn dự định đặt nó.&nbsp;</p>
+              <p style="text-align: left;">Một mẹo nhỏ giúp bạn xác định vị trí đặt sofa phù hợp chính là xác định điểm trung tâm của căn phòng. Hoặc có thể để gần cửa sổ, lò sưởi hoặc đối diện TiVi… bởi đây thường là những vị trí dễ gây chú ý.; Ngoài ra, việc lựa chọn vị trí cũng rất quan trọng vì nó ảnh hưởng đến kích thước ghế sofa. Ví dụ: nếu bạn muốn sử dụng ghế sofa góc, bạn cần phải biết ghế nên đặt ở bên trái hay bên phải. Hoặc những mẫu ghế lười, ghế dài nên đặt ở những nơi riêng tư hoặc góc ít người qua lại. Biết những chi tiết cơ bản này sẽ giúp bạn loại trừ những lựa chọn không phù hợp với nhu cầu của bạn.</p>
+              <h3 style="text-align: left;"><span style="font-size: 24px;"><strong>Chức năng của ghế sofa: Ai sẽ sử dụng ghế sofa thường xuyên?</strong></span></h3>
+              <p style="text-align: left;">Một yếu tố khác giúp bạn chọn sofa chuẩn chính là xem ai có nhu cầu sử dụng sofa nhiều. Ví dụ như bạn muốn dành thời gian thư giãn vào buổi tối, thưởng thức những bộ phim truyền hình yêu thích.<br />
+                Tiếp theo, bạn hãy xem xét độ sâu của ghế, cảm giác ngồi yêu thích của bạn, và cuối cùng là kết hợp với nhiều mẫu khác </a>có giúp diện mạo ghế thêm nổi bật hay không? tăng cảm giác thoải mái không?</p>
+                <ol>
+                    <li><strong>Trường hợp 1:</strong> nếu bạn là người yêu thích những cuộc hội họp và thường xuyên mời khách đến nhà, thì bạn nên cân nhắc một chiếc ghế sofa chắc chắn hơn. Những dòng ghế sofa có phần đệm cứng cáp, thường mang lại sự thoải mái dù có nhiều người ngồi.</li>
+                    <li><strong>Trường hợp 2:</strong> Nếu gia đình bạn có trẻ nhỏ hoặc vật nuôi, bạn nên ưu tiên những dòng sofa sở hữu chất liệu chắc chắn và bền bỉ, dễ lau chùi và vệ sinh. Dòng sofa da sẽ là gợi ý phù hợp dành cho bạn.</li>
+                    <li><strong>Trường hợp 3:</strong> Nếu gia đình bạn thường xuyên có bạn bè hay người thân ở lại qua đêm thì những dòng sofa giường sẽ là gợi ý hoàn hảo cho bạn khi muốn sở hữu nơi thư giãn và nghỉ ngơi.</li>
+                  </ol>
+
+                  <p style="text-align: center;"><img alt="" src="/ảnh/blog3/3.jpg" /></p>
+              <p style="text-align: center;">Thói quen khác nhau sẽ có những tiêu chí chọn sofa khác nhau.</p>
+              <h3 style="text-align: left;"><span style="font-size: 24px;"><strong>Chất liệu làm ghế sofa: Nên chọn sofa da hay vải?</strong></span></h3>
+              <p style="text-align: left;">Khi chọn một chiếc ghế sofa mới, yếu tố quan trọng khác chính là chất liệu làm ra nó. Yếu tố này ảnh hưởng đến tính thẩm mỹ, sự thoải mái và chức năng. Thông thường, mọi người thường sẽ lưỡng lự giữa 2 lựa chọn phổ biến là bọc da hoặc bọc vải.</p>
+              <p style="text-align: center;"><img alt="" src="/ảnh/blog3/4.jpg" /></p>
+              <p style="text-align: center;">Khi lựa chọn&nbsp;<span style="font-size: 1rem;">chất liệu ghế sofa nên xem xét ưu điểm và nhược điểm.</span></p>
+              <h4 style="text-align: left;"><strong><span style="font-size: 20px; color: #092b40;">Ghế sofa bọc da</span></strong></h4>
+              <p style="text-align: left;">Đối với ghế Sofa da hay ghế sofa da nhân tạo đều sở hữu vẻ ngoài sang trọng và cảm giác dễ chịu. Dòng ghế chất liệu da thường có độ hoàn thiện khác nhau, thiết kế và độ bóng, nhám khác nhau. Nhờ mang đến sự đa dạng cho bạn dễ dàng chọn ghế sofa phù hợp nhất.&nbsp;<br />
+              Nếu bạn thích cảm giác mịn, tinh tế và trang nhã thì chất liệu da bóng sẽ là lựa chọn phù hợp. Nếu bạn muốn tăng cảm giác cổ điển và mang cảm giác hoài niệm thì có thể lựa chọn chất liệu da nhám. Tất cả đều do sở thích cá nhân của bạn.&nbsp;</p>
+              <ol>
+                <li style="text-align: left;">
+                    <strong>Ưu điểm:</strong> Chất liệu da có độ bền, dễ lau chùi, không gây dị ứng, chống mài mòn tốt. Nếu bạn muốn tìm một chiếc ghế sofa bền, đẹp, thì có thể tham khảo chất liệu này.
+                </li>
+                <li style="text-align: left;">
+                    <strong>Nhược điểm:</strong> Mặc dù chất liệu da có ưu điểm về mặt thiết kế, nhưng nó không mang lại sự ấm áp và mềm mại như dòng ghế sofa vải. Chất liệu da tự nhiên cũng thường kém thoáng khí hơn các chất liệu khác.
+                </li>
+            </ol>
+
+              <h4 style="text-align: left;"><span style="font-size: 20px; color: #092b40;"><strong>Ghế sofa vải</strong></span></h4>
+              <p style="text-align: left;">Hiện nay, ghế sofa vải có nhiều thiết kế và phom dáng khác nhau, mang đến cho bạn nhiều sự lựa chọn. Chất liệu này mang đến cảm giác ấm cúng và thoải mái hơn dòng ghế sofa da.&nbsp;</p>
+              <ol>
+                <li style="text-align: left;">
+                    <strong>Ưu điểm:</strong> Chất liệu vải có khả năng thoáng khí hơn da, mang đến cảm giác thoải mái ngay cả khi thời tiết ấm áp.
+                </li>
+                <li style="text-align: left;">
+                    <strong>Nhược điểm:</strong> So với chất liệu da, chất liệu vải sẽ kém hơn, đặc biệt là khả năng chống bẩn và trầy xước. Tuy nhiên, dòng ghế này lại có giá cả phải chăng hơn.
+                </li>
+            </ol>
+            
+              <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Màu sắc của ghế sofa: trung tính và cổ điển hay tươi sáng và nguyên bản?</span></strong></h3>
+              <p style="text-align: left;">Bước cuối cùng trong quá trình chọn ghế sofa phù hợp chính là xem xét về yếu tố màu sắc. Việc lựa chọn màu sắc ghế sofa khá quan trọng như việc lựa chọn kiểu dáng và chất liệu, bởi nó quyết định phong cách tổng thể của cả ngôi nhà.Để quyết định nên mua màu sắc nào thì bạn nên tập trung vào việc chọn màu trung tính hay nên chọn màu gì đó táo bạo hoặc tươi sáng hơn.</p>
+              <h4 style="text-align: left;"><span style="font-size: 22px; color: #092b40;"><strong>Nguyên tắc chọn màu</strong></span> </h4>
+              <ol>
+                <li style="text-align: left;">Với các màu trung tính như: màu be, xám và trắng thường sẽ mang đến cảm giác sang trọng, vượt thời gian và dễ dàng kết hợp với nhiều phong cách thiết kế khác nhau. Nhưng tông màu này sẽ thích hợp cho những căn hộ có diện tích nhỏ vì chúng tạo cảm giác nhẹ nhàng, thoáng đãng.</li>
+                <li style="text-align: left;">Bạn nên xem xét về việc có thể kết hợp dễ dàng với bàn cafe, hay trang trí với một vài chiếc gối, chăn sofa để giúp mang lại sự lôi cuốn cho căn phòng.</li>
+                <li style="text-align: left;">Mặt khác, nên xem xét màu sắc nào giúp bạn tạo điểm nhấn cho không gian mà không cần phải đầu tư quá nhiều vào việc decor, trang trí.</li>
+            </ol>
+            
+              <p style="text-align: center;"><img alt="" src="/ảnh/blog3/5.jpg" /></p>
+              <p style="text-align: center;">Nguyên tắc chọn màu là cách đơn giản giúp chọn ghế sofa phù hợp</p>
+              <p style="text-align: left;">
+              Nếu bạn muốn tạo điểm nhấn cho không gian thêm phần nổi bật thì một mẹo nhỏ đó là hãy tham khảo thêm những mẫu ghế có kết hợp thêm hoa văn độc đáo. Điều này giúp tăng thêm cá tính và giúp tạo ra bầu không khí mà bạn đang tìm kiếm. Có thể tham khảo ghế sofa có màu xanh dương độc đáo, hoặc màu nâu ấm áp và dễ chịu.<br />
+              Vậy để trả lời cho câu hỏi “nên lựa chọn một chiếc ghế sofa màu trung tính, nổi bật hay nguyên bản” thì sẽ tùy thuộc vào đánh giá theo phong cách cá nhân và cách bạn nhìn tổng quan về phòng khách của mình. Điều này sẽ giúp bạn lựa chọn ghế sofa chuẩn, phù hợp với ngôi nhà của bạn.</p>
+              <h2 >Tổng hợp mẫu ghế sofa: sofa 2-3 chỗ ngồi, sofa module, sofa giường hay sofa góc?</span></h2>
+              <p style="text-align: left;">Ngày nay có rất nhiều mẫu mã ghế sofa đa dạng chủng loại. Dưới đây là một số loại ghế sofa thông dụng đã được JYSK tổng hợp từ thể loại, chức năng sử dụng và những tính năng, lợi ích độc đáo của sản phẩm.Hãy lựa chọn mẫu ghế sofa phù hợp, bao gồm: nhu cầu sử dụng, kiểu dáng, thẩm mỹ cũng như về chức năng và tính thực tế.</p>
+              <h3>Ghế sofa 2-3 chỗ ngồi</h3>
+<div class="article-container">
+    <div class="article-text" style="text-align: center;">
+        <p>
+            Ghế sofa 2-3 chỗ ngồi được biết tới là những mẫu ghế truyền thống và đa dạng về kiểu dáng, chất liệu lẫn màu sắc. Sự khác biệt giữa 2 loại ghế này chính là công suất sử dụng và kích thước của chúng. Theo đó, tùy vào nhu cầu sử dụng và số lượng thành viên trong gia đình mà bạn đưa ra những lựa chọn phù hợp.<br />
+            Ngoài ra, phom dáng và thiết kế cổ điển của dòng ghế này cũng là ưu điểm khi chúng dễ dàng kết hợp với những mẫu ghế và đồ nội thất khác.
+        </p>
+    </div>
+
+</div>
+<h4 style="text-align: left;">
+    <span style="font-size: 22px; color: #092b40;">
+        <strong>Ghế sofa góc</strong>
+    </span>
+</h4>
+<div class="article-container">
+    <div class="article-text" style="text-align: center;">
+        <p>
+            Ghế sofa góc hay còn được gọi là ghế sofa cắt, có dạng hình chữ L hoặc hình chữ U, có thể được ghép từ 2 chiếc sofa với một góc 90 độ. Nhờ thiết kế này mà sofa có thể đặt vừa vặn trong những căn phòng có góc hoặc thường được kê áp vào phía tường.
+            Ghế sofa góc là một trong những mẫu ghế sofa có kích thước lớn nhất, rất lý tưởng cho các phòng khách rộng rãi. Ngoài ra, nhờ tải trọng lớn nên ghế sofa có thể chịu được 4-5 người ngồi.
+            Ghế sofa góc mang đến không gian thư giãn, thoải mái cho bạn và gia đình.
+        </p>
+    </div>
+    <div class="article-img" style="text-align: center;">
+        <img alt="Ghế sofa góc" src="/ảnh/blog3/6.png" style="max-width: 100%; max-height: 300px; height: auto;" />
+    </div>
+</div>
+
+<h4 style="text-align: left;">
+    <span style="font-size: 22px; color: #092b40;">
+        <strong>Ghế sofa module</strong>
+    </span>
+</h4>
+<div class="article-container">
+    <div class="article-text" style="text-align: center;">
+        <p>
+             Sofa mô-đun đây là loại ghế sofa có cấu trúc linh hoạt, được ghép lại từ nhiều mảnh ghép riêng lẻ, còn được gọi là các mô-đun khác nhau. Ngoài ra, ưu điểm độc lập của dòng ghế này cũng mang đến sự linh hoạt khi sử dụng. Đây sẽ là lựa chọn hoàn hảo cho những ngôi nhà có diện tích vừa và lớn, hoặc các căn hộ chung cư, văn phòng. 
+            <span style="font-size: 1rem;">Với dòng ghế sofa kiểu mô-đun, bạn có thể sáng tạo và trang trí không gian phòng theo ý thích mà không cần tốn tiền mua đồ nội thất mới.</span>
+        </p>
+    </div>
+    <div class="article-img" style="text-align: center;">
+        <img alt="" src="/ảnh/blog3/7.png" style="max-width: 100%; max-height: 300px; height: auto;" />
+    </div>
+</div>
+
+<h4 style="text-align: left;">
+    <span style="font-size: 22px; color: #092b40;">
+        <strong>Ghế sofa băng dài</strong>
+    </span>
+</h4>
+<div class="article-container">
+    <div class="article-text" style="text-align: center;">
+        <p>
+            Đặc điểm của dòng ghế sofa băng dài chính kích cỡ thon dài, đây được xem là lựa chọn phù hợp với những gia chủ thích thể hiện phong cách và ưu tiên cảm giác thư giãn, ấm cúng cho phòng khách. Nếu bạn là người thích đọc sách, xem TV hay thường có những giấc ngủ ngắn thì ghế sofa băng dài chính là lựa chọn phù hợp.
+        </p>
+    </div>
+   
+    <div class="article-img" style="text-align: center;">
+        <img alt="" src="/ảnh/blog3/8.png" style="max-width: 100%; max-height: 300px; height: auto;" />
+    </div>
+</div>
+
+<h4 style="text-align: left;">
+    <span style="font-size: 22px; color: #092b40;">
+        <strong>Ghế sofa giường</strong>
+    </span>
+</h4>
+<div class="article-container">
+    <div class="article-text" style="text-align: center;">
+        <p>
+            Ghế sofa giường là một lựa chọn thông minh cho những không gian nhỏ hẹp. Nó có thể chuyển đổi từ ghế sofa sang giường chỉ bằng vài bước đơn giản. Đây là giải pháp lý tưởng cho những ngôi nhà có khách đến thăm hoặc trong các căn hộ studio.
+        </p>
+    </div>
+    <div class="article-img" style="text-align: center;">
+        <img alt="" src="/ảnh/blog3/9.png" style="max-width: 100%; max-height: 300px; height: auto;" />
+    </div>
+    
+</div>
+
+</div>      
+<style>
+    .article-content {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        padding: 15px; /* Thêm khoảng cách bên trong khung nội dung */
+        border: 1px solid #ddd; /* Viền cho khung nội dung */
+        border-radius: 5px; /* Bo góc khung */
+        background-color: #f9f9f9; /* Màu nền cho khung nội dung */
+    }
+
+    .article-content p {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 12px;
+        text-align: justify; /* Căn đều cho đoạn văn */
+    }
+
+    .article-content h2,
+    .article-content h3 {
+        color: #2c3e50;
+        margin-top: 20px;
+    }
+
+    .article-content h2 {
+        font-size: 26px; /* Kích thước chữ cho tiêu đề h2 */
+        margin-bottom: 10px; /* Khoảng cách dưới tiêu đề h2 */
+    }
+
+    .article-content h3 {
+        font-size: 24px; /* Kích thước chữ cho tiêu đề h3 */
+        margin-bottom: 8px; /* Khoảng cách dưới tiêu đề h3 */
+    }
+
+    .article-content img {
+        max-width: 100%;
+        height: auto;
+        margin: 10px 0;
+        transition: transform 0.2s; /* Hiệu ứng chuyển động khi hover */
+    }
+
+    .article-content img:hover {
+        transform: scale(1.05); /* Phóng to hình ảnh khi hover */
+    }
+
+    .article-content ol {
+        margin-left: 20px; /* Khoảng cách bên trái cho danh sách có thứ tự */
+    }
+
+    .article-content ol li {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 8px;
+        position: relative; /* Để thêm hiệu ứng cho các mục */
+        padding-left: 20px; /* Thêm khoảng cách bên trái cho các mục */
+    }
+
+    .article-content ol li::marker {
+        color: #e74c3c; /* Màu cho số thứ tự của danh sách */
+        font-weight: bold; /* Làm nổi bật số thứ tự */
+    }
+</style>
+
+    </body>
+    </html>

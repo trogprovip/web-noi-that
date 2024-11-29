@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport content="width=device-width, initial-scale=1.0>
+    <link rel="stylesheet" href="styles.css">
+    <title>Nội thất Bắc Âu</title>
+    <style>
+        /* Cài đặt chung */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: Arial, sans-serif; 
+        }
+        
+        /* Định dạng Header */
+        header {
+            background-color: #e0e0e0; /* Màu nền xám nhạt */
+            color: #0d425d; /* Màu chữ */
+            display: flex; /* Dùng flex để căn đều các mục trong header */
+            justify-content: space-between; /* Căn đều hai bên trái và phải */
+            padding: 10px 30px; /* Khoảng đệm trong */
+            height: 65px; /* Chiều cao của header */
+            align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+            position: fixed; /* Cố định header trên cùng màn hình */
+            left: 0;
+            top: 0;
+            right: 0;
+            z-index: 1000; /* Đảm bảo header nằm trên các phần tử khác */
+
+        }
+
+        /* Logo */
+        .logo img { 
+            max-width: 150px;
+            margin-top: 10px;
+        }
+
+        /* Định dạng Menu */
+        .menu ul { 
+            display: flex;
+            list-style: none; 
+        }
+        .menu ul li { 
+            padding: 0 10px; /* Khoảng đệm ngang giữa các mục menu chính */
+            margin-right: 50px; 
+            position: relative; 
+        }
+        .menu a {
+            color: #0d425d; 
+            text-decoration: none; 
+            font-size: 18px; 
+            font-weight: bold; 
+        }
+        .sub-menu {
+            display: none;
+            opacity: 0; /* Ban đầu ẩn menu con */
+            visibility: hidden; /* Ẩn hoàn toàn */
+            position: absolute;
+            top: 80%;
+            left: 0;
+            background: #f9f9f9;
+            padding: 30px 0; /* Khoảng đệm dọc */
+            border: 1px solid #1e1d1d; /* Viền xám nhạt */
+            z-index: 1000; /* Đảm bảo menu con nằm trên các phần tử khác */
+            min-width: 180px; /* Chiều rộng tối thiểu cho menu con */
+        }
+        /* Định dạng cho các mục con */
+        .sub-menu li {
+         padding: 30px; /* Khoảng đệm cho các mục con */
+         margin-bottom: 15px; /* Khoảng cách giữa các mục */
+         border-bottom: 1px solid #ddd; /* Đường viền dưới giữa các mục con */
+         }
+
+        .menu ul li:hover .sub-menu { 
+            display: block; 
+        }
+        .sub-menu a {
+            color: #292b2c; 
+            font-size: 16px; 
+            font-weight: bold; 
+        }
+        .sub-menu a:hover { color: #0078d7; }
+        /* Hiển thị menu con khi di chuột vào mục cha */
+        .menu > ul > li:hover .sub-menu {
+         margin-top: 25px;
+        display: block; /* Hiển thị menu con */
+        opacity: 1; /* Làm mờ dần */
+        visibility: visible; /* Cho phép hiển thị */
+        }   
+
+
+        /* Định dạng phần khác */
+        .other {
+            display: flex;
+            align-items: center;
+        }
+        .other input {
+            width: 180px;
+            height: 30px;
+            padding: 5px;
+            margin-right: 30px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .other img {
+            margin-left: 10px; 
+        }
+        .other a {
+            color: #0d425d; 
+            margin-right: 20px;
+            font-size: 18px;
+            font-weight: bold; 
+            text-decoration: none; /* Xóa gạch chân cho liên kết */
+
+        }
+    
+        /* Định dạng cho giỏ hàng */
+        #cart {
+            position: relative; 
+        }
+
+        /* Định dạng cho số lượng giỏ hàng */
+        #cart-count {
+            position: absolute;
+            top: 15px; 
+            right: 25px; 
+            color: rgb(46, 44, 44); 
+            font-size: 12px; 
+            font-weight: bold; 
+            min-width: 20px; /* Đảm bảo chiều rộng tối thiểu cho số lượng */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="anhlogo.jpg" alt="Logo Nội thất Bắc Âu" style="width: 120px;">
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="#">Phòng</a>
+                    <ul class="sub-menu">
+                        <li><a href="#">Phòng khách</a></li>
+                        <li><a href="#">Phòng ngủ</a></li>
+                        <li><a href="#">Phòng ăn</a></li>
+                        <li><a href="#">Phòng làm việc</a></li>
+                    </ul>
+                </li>
+                <li><a href="khuyenmai.html">Khuyến mại</a></li>
+                <li><a href="blog.html">Blog</a></li>
+            </ul>
+        </div>
+        <div class="other">
+            <input type="text" placeholder="Tìm kiếm..."> 
+            <a href="dangnhap.html">
+                <img src="Font Awesome/user-solid.svg" style="width: 15px; height: auto;" class="icon" >
+                Đăng nhập
+            </a>
+            <a href="#">
+                <img src="Font Awesome/cart-shopping-solid.svg" style="width: 20px; height: auto;" class="icon" >
+                <span id="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+        <main>
+            <div class="container">
+                <div class="news-detail-section">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <h1 class="news-detail-title">Phong cách Scandinavian là gì? Ứng dụng nội thất Scandinavian Living Bắc Âu ấn tượng nhất 2024</h1>
+                            <div class="news-detail-subtitle">
+                                <div class="account">Tác giả: <span>Thuy Team</span></div>
+                                <div class="text">-</div>
+                                <div class="date">Ngày đăng: Sinh Nhật Thùy</div>
+                            </div>
+                            <style>
+                                .news-detail-title {
+                                    font-family: Arial, sans-serif;
+                                    font-size: 32px;
+                                    color: #2c3e50;
+                                    margin: 80px 0 20px; /* Khoảng cách phía trên tăng lên để tránh che khuất */
+                                    line-height: 1.2;
+                                    text-align: left;
+                                    font-weight: bold;
+                                }
+            
+                                .news-detail-subtitle {
+                                    margin-bottom: 20px;
+                                }
+            
+                                .account {
+                                    font-family: Arial, sans-serif;
+                                    font-size: 14px;
+                                    color: #333;
+                                    margin-bottom: 4px;
+                                }
+            
+                                .account span {
+                                    font-weight: bold;
+                                }
+            
+                                .text {
+                                    font-size: 14px;
+                                    color: #777;
+                                    margin: 0 4px;
+                                }
+            
+                                .date {
+                                    font-size: 14px;
+                                    color: #555;
+                                    margin-top: 4px;
+                                }
+                            </style>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="article-content">                                
+                <p style="text-align: center;">Cùng Nội thất Bắc Âu xem xét các yếu tố cần cân nhắc trước khi đầu tư vào chiếc ghế sofa mới cho gia đình bạn. </p>
+        
+                <h3>Scandinavian là gì?</h3>
+                <p>Scandinavian được bắt nguồn từ tên gọi của một địa danh ở Bắc Âu là bán đảo Scandinavia. Bán đảo này được bao quanh bởi biển Baltic, biển Bắc, biển Na Uy thuộc Đại Tây Dương và biển Barents thuộc Bắc Băng Dương.</p>
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/1.png" />Vùng Bắc Âu xinh đẹp là nơi bắt nguồn của phong cách Scandinavian</p>
+              
+              <h3 style="text-align: left;"><span style="font-size: 24px;"><strong>Phong cách Scandinavian là gì?</strong></span></h3>
+              <p style="text-align: left;">Dù xu hướng thiết kế nội thất Scandinavian đang ngày càng phổ biến nhưng rất nhiều người vẫn chưa biết rõ phong cách Scandinavian là gì? Phong cách Scandinavian, hay phong cách Bắc Âu, là phong cách thiết kế Scandinavian nội thất có sự hòa quyện độc đáo giữa 3 yếu tố – sự tối giản – công năng tiện dụng, mang đến nét đẹp hiện đại nhưng vẫn gần gũi với thiên nhiên. “Đơn giản, ấm cúng và tinh tế” là những nét đặc trưng thường thấy ở các ngôi nhà mang phong cách thiết kế Scandinavian. Những gam màu trung tính như trắng, xám, xanh đen trắng… mang đến cảm giác hài hòa, dịu mắt kết hợp cùng những sản phẩm nội thất đơn giản nhưng đầy đủ tiện nghi. Sự pha trộn này sẽ mang đến cho bạn cảm giác thoải mái, yên bình và thư giãn. Chính vì vậy, phong cách nội thất Scandinavian không những được giới trẻ ưa chuộng, mà ngay cả những người ở tuổi trung niên cũng yêu thích.<br />
+                  <p style="text-align: center;"><img alt="" src="/ảnh/blog2/2.jpg" /></p>
+              <p style="text-align: center;font-style: italic;">Phong cách nội thất Scandinavian mang lại cảm giác thoải mái, yên bình và thư giãn.</p>
+              
+              <h3 style="text-align: left;"><span style="font-size: 24px;"><strong>Lịch sử phong cách Scandinavian</strong></span></h3>
+              <p style="text-align: left;">Phong cách này xuất hiện từ năm 1940, tuy nhiên phải đến những năm 1950 thì nó mới được công nhận rộng rãi ở các quốc gia như Thụy Điển, Phần Lan, Đan Mạch… Trước đó, vào năm 1914, phong cách Scandinavian được biết đến với tên gọi thiết kế dân chủ. Ở giai đoạn này, phong cách dân chủ chú trọng vào việc tận dụng hiệu quả các nguồn nguyên liệu tự nhiên nên sản phẩm có giá cả phải chăng. Do vậy, phong cách nội thất này nhanh chóng được nhiều người ưa chuộng, mở ra tiền đề phát triển cho phong cách Bắc Âu.</p>
+              <p style="text-align: left;">Sau đó, nhiều cuộc triển lãm xoay quanh đề tài thiết kế nội thất Scandinavian đã được tổ chức tại Bắc Âu và Châu Mỹ. Stockholm Exhibition là buổi triển lãm đầu tiên được tổ chức vào năm 1930. Từ năm 1947 đến 1954, các thuật ngữ về Scandinavian bắt đầu được đưa vào chương trình thiết kế tại Mỹ và Canada. Bên cạnh đó, nhiều sản phẩm mang phong cách nội thất Scandinavian cũng được trưng bày, giúp phong cách thiết kế Scandinavian ngày càng phổ biến hơn. Từ giai đoạn đầu của thế kỷ 21, Scandinavian đã trở thành một trong những phong cách thiết kế nội thất ưu việt trên thế giới.</p>
+              
+              <h3 style="text-align: left;"><span style="font-size: 24px;"><strong>Đặc trưng phong cách Scandinavian</strong></span></h3>
+              
+              <p style="text-align: left;">Để trang trí không gian sống nhà mình theo phong cách Bắc Âu Scandinavian, bạn cần chú ý đến những đặc trưng cơ bản của phong cách nội thất này bao gồm:</p>
+              <ol>
+                <li style="text-align: left;">
+                👉Sử dụng các chất liệu tự nhiên như gỗ và đá.
+                </li>
+                <li style="text-align: left;">
+                👉 Sử dụng tông màu trung tính chủ đạo kết hợp yếu tố tương phản để tạo điểm nhấn cho không gian.
+                </li>
+                <li style="text-align: left;">
+                👉Tận dụng ánh sáng tự nhiên.
+                </li>
+                <li style="text-align: left;">
+                👉Lựa chọn đồ nội thất có thiết kế đơn giản, hiện đại và có tính ứng dụng cao.
+                </li>
+                
+            </ol>
+
+
+              <h4>Chất liệu trong trang trí nội thất Scandinavian</h4>
+              <p style="text-align: left;">Phong cách Scandinavian nổi bật với vẻ đẹp giản dị, mộc mạc và tinh tế. Do đó, những chất liệu, phụ kiện, vật dụng trong căn phòng hay căn hộ được sử dụng cho phong cách này đó là:
+              </p>
+              <ol>
+                <li style="text-align: left;">
+                <strong>Gỗ:</strong>Đây chính là chất liệu đặc trưng không thể thiếu khi nhắc đến phong cách Bắc Âu. Các phụ kiện bằng gỗ bàn ghế, tủ đồ, bàn trang điểm… mang đến vẻ đẹp mộc mạc, giản dị, gần gũi với tự nhiên tạo cảm giác thoải mái, trong lành.
+                </li>
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/3.png" /></p>
+                <p style="text-align: center;font-style: italic;">Sự kết hợp của chất liệu gỗ sáng giúp không gian thêm thoáng đạt và rộng rãi</p>
+                <li style="text-align: left;">
+                <strong>Đá:</strong>Chất liệu đá là yếu tố đặc trưng trong thiết kế phong cách Scandinavian, đặc biệt là đá màu trắng tinh khiết. Chúng mang lại vẻ đẹp thanh lịch, tinh tế khi được đặt ở các vị trí để tạo điểm nhấn như vách tường, mặt bếp…
+                </li>
+                <li style="text-align: left;">
+                <strong>Da và lông thú:</strong>Khi kết hợp 2 chất liệu này sẽ đem đến sự sáng tạo độc đáo trong phong cách thiết kế Scandinavian. Chất liệu da thường được sử dụng ở ghế sofa hay ghế bành… Còn lông thú thì chủ yếu là thảm hoặc vật trang trí trên tường, tạo không gian ấm áp, gần gũi.
+                </li>
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/4.png" /></p>
+                <p style="text-align: center;font-style: italic;">Ghế sofa kết hợp cùng thảm phòng khách tạo nên vẻ đẹp hiện đại</p>
+            </ol>
+
+             
+            
+              <h4 >Màu sắc trong phong cách Scandinavian</h4>
+              <p style="text-align: left;">Màu trắng chính là biểu tượng đặc trưng của phong cách thiết kế Scandinavian. Bởi lẽ, thiết kế này được lấy cảm hứng từ vùng đất có tuyết trắng Bắc Âu.</p>
+              <p style="text-align: center;"><img alt="" src="/ảnh/blog2/5.jpg" /></p>
+              <p style="text-align: center;font-style: italic;">Sử dụng tông màu trắng chủ đạo giúp không gian nội thất thêm tinh tế, hiện đại</p>
+              <p style="text-align: left;">Màu trắng trong thiết kế nội thất không những giúp mở rộng không gian, mà còn rất dễ phối hợp với nhiều màu sắc khác như màu kem, vàng nhạt, xanh… để tạo điểm nhấn.
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/6.jpg" /></p>
+                <p style="text-align: center;font-style: italic;">Sự kết hợp màu sắc trung tính tạo điểm nhấn nổi bật cho không gian</p>
+                </p>
+            
+             
+              <h4>Ánh sáng rất quan trọng trong Scandinavian</h4>
+
+              <p style="text-align: left;">Một trong những điểm độc đáo, sáng tạo của phong cách Bắc Âu chính là tận dụng được nguồn ánh sáng tự nhiên. Do vậy, thông thường, trong phòng sẽ có nhiều cửa sổ cùng rèm mỏng màu trắng để thu hút ánh sáng bên ngoài. Đèn trang trí thường được sử dụng ở phong cách này là đèn lồng, đèn mây màu trắng hoặc vàng nhẹ.</p>
+              <p style="text-align: center;"><img alt="" src="/ảnh/blog2/7.jpg" /></p>
+              <p style="text-align: center;font-style: italic;">Sử dụng ánh sáng tự nhiên giúp không gian thêm rộng mở, thoáng đãng</p>
+
+              <h3>Các yếu tố trang trí</h3>
+              <ol>
+                <li style="text-align: left;">
+                <strong>Cây xanh:</strong> Phong cách Scandinavian theo xu hướng tự nhiên và giản dị nên cây xanh được xem là phụ kiện trang trí không thể thiếu.
+                </li>
+                <li style="text-align: left;">
+                <strong>Chất liệu gỗ:</strong>C Như đã đề cập ở trên, chất liệu gỗ tạo nên vẻ đẹp mộc mạc và giản dị cho không gian theo phong cách Bắc Âu. Do đó, bạn có thể tìm mua hoặc tự tay làm những phụ kiện bằng gỗ như tủ gỗ, lọ hoa, vòng cung treo tường, rèm gỗ… để trang trí cho phòng của mình.
+                </li>
+                <li style="text-align: left;">
+                <strong>Họa tiết:</strong>Phong cách Scandinavian theo hướng đơn giản, tinh tế. Vì vậy, các họa tiết trang trí hình hoa văn, caro được ưa chuộng. Chúng thường được xuất hiện ở thảm trải sàn, tranh treo tường…
+                </li>
+            </ol>
+
+            <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Vật dụng nội thất</span></strong></h3>
+              <p style="text-align: left;">Vì phong cách thiết kế Bắc Âu đi theo chủ nghĩa tối giản, nên bạn cần chú trọng tới tính tiện dụng và đơn giản trong cách sắp xếp nội thất. Những vật dụng nội thất đa năng sẽ được ưu tiên sử dụng nhiều hơn. Bạn có thể bố trí ghế bành, sofa, ghế tựa dạng rời, kệ treo tường, tủ kệ dạng cao tầng… để tiết kiệm không gian, đồng thời chọn lựa những mẫu nội thất chất liệu thiên nhiên như bàn ghế mây, tre… góp phần là tăng thêm vẻ đẹp tinh tế, sáng tạo.</p>
+              <p style="text-align: center;"><img alt="" src="/ảnh/blog2/8.jpg" /></p>
+              <p style="text-align: center;font-style: italic;">Bố trí đồ nội thất đơn giản, gọn gàng để không gian thêm rộng rãi</p>
+            
+            <h2>Lý do phong cách Scandinavian Living ngày càng được ưa chuộng</h2>  
+            <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Giúp căn phòng rộng và thoáng hơn</span></strong></h3>
+              <p style="text-align: left;">Hiểu được phong cách Scandinavian là gì sẽ giúp bạn dễ dàng biết được lý do phong cách thiết kế này luôn được yêu thích. Nhấn mạnh vào nét đẹp tươi sáng, tinh tế, sử dụng gam màu tươi sáng như màu trắng, xám, xanh là nét đặc trưng của phong cách này. Những bức tường màu trắng mang lại cảm giác mở rộng không gian, rộng rãi, thông thoáng cho căn phòng. Đặc biệt đối với các ngôi nhà, chung cư ở thành phố lớn có không gian nhỏ hẹp, chật chội thì việc ứng dụng thiết kế phong cách Scandinavian là một lựa chọn lý tưởng.</p> 
+              <p style="text-align: center;"><img alt="" src="/ảnh/blog2/9.jpg" /></p> 
+              <p style="text-align: center;font-style: italic;">Phòng ngủ phong cách Scandinavian giúp căn phòng rộng và thoáng hơn</p>
+
+            <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Dễ kết hợp với những họa tiết khác</span></strong></h3>
+              <p style="text-align: left;">Không ít bạn sẽ nghĩ rằng gam màu trắng chủ đạo sẽ đem lại cảm giác đơn điệu, nhàm chán. Thế nhưng, phong cách nội thất Scandinavian với gam màu trắng chủ đạo cực kỳ dễ phối hợp với các phụ kiện nội thất khác. Vậy cách phối hợp phụ kiện trang trí trong phong cách Scandinavian là gì? Rất đơn giản, việc sử dụng những chiếc thảm trải sàn tông màu sáng sẽ giúp cả căn phòng của bạn sẽ trở nên tươi sáng, có điểm nhấn và mang lại cảm giác ấm cúng. Nếu bạn yêu thích phong cách hiện đại, năng động, bạn có thể kết hợp phụ kiện với các họa tiết kẻ sọc, bất đối xứng,…</p> 
+              <p style="text-align: center;"><img alt="" src="/ảnh/blog2/10.jpg" /></p> 
+              <p style="text-align: center;font-style: italic;">Sự kết hợp các phụ kiện trang trí trong phong cách Scandinavian</p>
+            
+            <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Tận dụng tối đa ánh sáng tự nhiên</span></strong></h3>
+              <p style="text-align: left;">Vậy nguồn ánh sáng của phong cách Scandinavian là gì? Sử dụng ánh sáng tự nhiên là một trong những yếu tố quan trọng trong thiết kế nội thất mang phong cách Scandinavian. Xu hướng thiết kế Bắc Âu này tận dụng tối đa nguồn sáng tự nhiên bằng cách kết hợp các khung cửa sổ rộng lớn và những chiếc rèm cửa sáng màu. Điều này giúp tăng góc độ dàn trải của ánh sáng và mang lại không khí thoáng đãng cho căn phòng. Đây cũng là một điểm nhấn ấn tượng của phong cách Scandinavian.</p> 
+              
+            <h2>6 Cách trang trí nhà phong cách nội thất Scandinavian Bắc Âu</h2>  
+              <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Phong cách nội thất Scandinavian Design với sàn gỗ sáng màu</span></strong></h3>
+                <p style="text-align: left;">Với phong cách nội thất Scandinavian, sàn gỗ sáng màu luôn là sự lựa chọn hàng đầu. Chúng có thể sử dụng trong mọi không gian, ngoại trừ phòng tắm. Nếu bạn đã lắp sàn gỗ màu tối, thì có thể làm sáng chúng bằng cách dùng các sản phẩm đánh sàn chuyên dụng, và sơn dầu lại màu sáng hơn.</p> 
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/11.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Sàn gỗ sáng màu là đặc trưng của phong cách nội thất Scandinavian</p>  
+
+            <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Màu sắc trung tính trong phong cách nội thất Scandinavian</span></strong></h3>
+                <p style="text-align: left;">Phong cách nội thất Scandinavian ưu tiên lựa chọn tone màu sáng chủ đạo như: trắng, xám, xanh các màu sắc nhạt, đặc biệt là màu pastel. Lưu ý nhỏ là bạn chỉ nên sử dụng từ một đến hai màu sắc chủ đạo thôi nhé.</p> 
+
+            <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Vật liệu tự nhiên là điểm quan trọng trong Scandinavian Design</span></strong></h3>
+                <p style="text-align: left;">Để tô thêm vẻ đẹp cho phong cách nội thất Scandinavian, thường vật liệu tự nhiên luôn là sự lựa chọn hoàn hảo. Bằng việc kết hợp giữa các loại vật liệu khác nhau, như hộp đựng đựng làm từ mây, phụ kiện trang trí bằng gốm sứ kết hợp với nội thất làm từ gỗ,… bạn sẽ thấy một tổng thể rất đẹp, hài hòa và thanh lịch.</p> 
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/12.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Tủ quần áo HAGENDRUP, gỗ công nghiệp màu sồi trắng </p>
+                
+            <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Trang trí phòng với ánh sáng tự nhiên </span></strong></h3>
+                <p style="text-align: left;">Phong cách nội thất Scandinavian có nguồn gốc từ các nước Bắc Âu. Do những nước này có mùa đông kéo dài và khá tối, nên không có gì làm lạ khi người dân nơi đây luôn muốn đưa nhiều ánh sáng vào trong nhà. Người Scandinavian thường sử dụng các bóng đèn thả trần, thiết kế nhiều khung cửa sổ và bố trí chúng rải rác xung quanh phòng nhằm khuếch tán ánh sáng. </p> 
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/13.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Ánh sáng tự nhiên được ưa chuộng trong thiết kế phong cách nội thất Scandinavian</p>  
+            <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Đồ nội thất hiện đại tối giản thể hiện rõ Scandinavian Design</span></strong></h3>
+                <p style="text-align: left;">Một chi tiết nhỏ nữa đáng được quan tâm, đó là khi mua đồ nội thất, bạn nên ưu tiên chọn đồ càng tối giản càng tốt. Vì theo phong cách nội thất Scandinavian, họ không sử dụng quá nhiều họa tiết hoa văn, thay vào đó họ chọn những sản phẩm đa năng, có màu sắc đơn điệu. Như thế sẽ tạo nên không gian thoáng đãng, cảm giác thoải mái, không bị bí bách nhưng vẫn đầy đủ tiện nghi.</p>
+            <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Chọn ghế Sofa màu trầm</span></strong></h3>
+                <p style="text-align: left;">Có một sản phẩm phổ biến trong phong cách nội thất Scandinavian đó là những chiếc ghế sofa màu trầm. Thường sử dụng chất liệu là bọc vải màu tối như xám, xanh đen, xám nhạt,… ới phần chân ghế bằng gỗ, kiểu dáng bo tròn hoặc vuông vức tạo sự khác biệt, đậm phong cách Bắc Âu.</p>
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/14.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Sofa 3S GEDVED, vải polyester màu xám </p> 
+            <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Phụ kiện trang trí nhà cửa đơn giản nhưng tinh tế</span></strong></h3>
+                <p style="text-align: left;">Điều cuối cùng, là bạn nên giảm các phụ kiện trang trí ở mức tối thiểu. Hãy nghĩ về những khoảng trống, nếu muốn bạn có thể tô thêm một vài cây xanh hoặc trang trí thêm các phụ kiện cơ bản như rèm cửa, khung ảnh, thảm trải,… chúng vừa làm điểm nhấn trang trí nhưng vẫn có công năng chắc chắn sẽ làm tăng giá trị thẩm mỹ cho căn phòng của bạn.</p>
+
+            <h2>TOP Mẫu nội thất phong cách Scandinavian Design hiện đại, HOT nhất hiện nay. </h2>
+            <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Mẫu nội thất phòng khách phong cách Scandinavian</span></strong></h3>
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/15.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu phòng khách phong cách Scandinavian sàn nhà gỗ ấm cúng</p> 
+               <p style="text-align: center;"><img alt="" src="/ảnh/blog2/16.jpeg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu phòng khách phong cách Bắc Âu nhẹ nhàng, tinh tế</p>
+            
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/17.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu phòng khách phong cách Bắc Âu nhẹ nhàng, tinh tế</p> 
+            <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Mẫu nội thất phòng ngủ phong cách Scandinavian</span></strong></h3> 
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/18.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu nội thất phòng ngủ phong cách Scandinavian với phụ kiện trang trí tạo điểm nhấn độc đáo</p> 
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/19.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu nội thất phòng ngủ tone màu xanh nhẹ nhàng</p>        
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/20.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu phòng ngủ phong cách Scandinavian sử dụng kệ treo tường giúp tiết kiệm diện tích không gian</p> 
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/21.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu phòng ngủ phong cách Bắc Âu với mẫu giường ngủ thông minh, tiện dụng</p>        
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/22.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu phòng ngủ Scandinavian dành cho trẻ em tiện lợi</p> 
+
+            <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Mẫu nội thất phòng bếp phong cách Scandinavian</span></strong></h3> 
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/23.jpeg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu phòng bếp phong cách Bắc Âu đơn giản, nhẹ nhàng</p> 
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/24.jpeg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu phòng bếp phong cách Scandinavian vời bàn ăn tone màu tối tạo điểm nhấn nổi bật</p>       
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/25.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu phòng bếp Scandinavian tận dụng nguồn ánh sáng tự nhiên giúp không gian thêm thoáng đãng, rộng mở</p> 
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/26.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu nội thất phòng bếp sử dụng chất liệu gỗ ấm cúng, gần gũi thiên nhiên</p>        
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/27.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu nội thất phòng bếp phong cách Scandinavian có sự phối hợp hài hòa 2 màu đen trắng thanh lịch, hiện đại</p> 
+
+            <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Mẫu nội thất nhà tắm phong cách Scandinavian</span></strong></h3> 
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/28.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu nội thất phòng tắm phong cách Scandinavian đơn giản, hiện đạig</p> 
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/29.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu nội thất phòng tắm với phụ kiện trang trí tạo điểm nhấn thu hút</p>       
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/30.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">MMẫu phòng tắm phong cách Bắc Âu với đá ốp tường và tông màu trắng chủ đạo tối giản, thanh lịch</p> 
+
+
+            <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Mẫu nội thất phòng làm việc phong cách Scandinavian</span></strong></h3> 
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/31.jpeg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu nội thất phòng làm việc hiện đại</p> 
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/32.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu phòng làm việc phong cách Scandinavian đơn giản, tiện nghi</p>       
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/33.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Mẫu nội thất phòng làm việc phong cách Bắc Âu đẹp</p> 
+
+
+            <h3 style="text-align: left;"><strong><span style="font-size: 24px;">Mẫu nội thất ngoài trời phong cách Scandinavian</span></strong></h3> 
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/34.jpg" /></p> 
+                <p style="text-align: center;">Bộ bàn ghế ngoài trời phong cách Scandinavian đơn giản</p> 
+                <p style="text-align: center;"><img alt="" src="/ảnh/blog2/35.jpg" /></p> 
+                <p style="text-align: center;font-style: italic;">Ghế ngoài trời đẹp, thư giãn phong cách Scandinavian</p>       
+                <p style="text-align: left;">Phong cách Scandinavian đang trở thành xu hướng thiết kế nội thất trong những năm gần đây. Nếu bạn đang có mong muốn thiết kế căn nhà của mình theo phong cách này thì hãy đến với Nội thất Bắc Âu chuỗi bán lẻ nội thất và trang trí phong cách Scandinavian đến từ Đan Mạch sẽ mang lại giải pháp trang trí nội thất Scandinavian Style giúp bạn thiết kế và trang trí ngôi nhà một cách tinh tế, hiện đại. </p>    
+</div>          
+</div>    
+        </main>  
+        <style>
+            .article-content {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                margin: 20px;
+                padding: 15px; /* Thêm khoảng cách bên trong khung nội dung */
+                border: 1px solid #ddd; /* Viền cho khung nội dung */
+                border-radius: 5px; /* Bo góc khung */
+                background-color: #f9f9f9; /* Màu nền cho khung nội dung */
+            }
+        
+            .article-content p {
+                font-size: 16px;
+                color: #333;
+                margin-bottom: 12px;
+                text-align: justify; /* Căn đều cho đoạn văn */
+            }
+        
+            .article-content h2,
+            .article-content h3 {
+                color: #2c3e50;
+                margin-top: 20px;
+            }
+        
+            .article-content h2 {
+                font-size: 26px; /* Kích thước chữ cho tiêu đề h2 */
+                margin-bottom: 10px; /* Khoảng cách dưới tiêu đề h2 */
+            }
+        
+            .article-content h3 {
+                font-size: 24px; /* Kích thước chữ cho tiêu đề h3 */
+                margin-bottom: 8px; /* Khoảng cách dưới tiêu đề h3 */
+            }
+        
+            .article-content img {
+                max-width: 100%;
+                height: auto;
+                margin: 10px 0;
+                transition: transform 0.2s; /* Hiệu ứng chuyển động khi hover */
+            }
+        
+            .article-content img:hover {
+                transform: scale(1.05); /* Phóng to hình ảnh khi hover */
+            }
+        
+            .article-content ol {
+                margin-left: 20px; /* Khoảng cách bên trái cho danh sách có thứ tự */
+            }
+        
+            .article-content ol li {
+                font-size: 16px;
+                color: #333;
+                margin-bottom: 8px;
+                position: relative; /* Để thêm hiệu ứng cho các mục */
+                padding-left: 20px; /* Thêm khoảng cách bên trái cho các mục */
+            }
+        
+            .article-content ol li::marker {
+                color: #e74c3c; /* Màu cho số thứ tự của danh sách */
+                font-weight: bold; /* Làm nổi bật số thứ tự */
+            }
+        </style>
+    </body>
+    </html>
