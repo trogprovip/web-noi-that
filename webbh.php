@@ -181,10 +181,15 @@ if (isset($_SESSION['user_id'])) {
                 Đăng nhập
             </a>
         <?php endif; ?>
-        <a href="cart.php">
-            <img src="Font Awesome/cart-shopping-solid.svg" style="width: 20px; height: auto;" class="icon">
-            <span id="cart-count"></span>
-        </a>
+        <a href="cart.php" id="cart-link">
+         <img src="Font Awesome/cart-shopping-solid.svg" style="width: 20px; height: auto;" class="icon">
+         <span id="cart-count">
+        <?php 
+        // Hiển thị tổng số lượng sản phẩm trong giỏ hàng
+        echo isset($_SESSION['cart']) ? array_sum(array_column($_SESSION['cart'], 'quantity')) : 0; 
+        ?>
+    </span>
+</a>
         </div>
     </header>
 
@@ -258,10 +263,10 @@ if (isset($_SESSION['user_id'])) {
 <main>
     <div class="carousel">
         <div class="carousel-images">
-            <img src="ảnh/khuyenmai/khach.jpg" alt="Image 1">
-            <img src="ảnh/khuyenmai/ngu.jpg" alt="Image 2">
-            <img src="ảnh/khuyenmai/an.jpg" alt="Image 3">
-            <img src="ảnh/khuyenmai/lamvc.jpg" alt="Image 4">
+            <img src="./ảnh/khuyenmai/khach.jpg" alt="Image 1">
+            <img src="./ảnh/khuyenmai/ngu.jpg" alt="Image 2">
+            <img src="./ảnh/khuyenmai/an.jpg" alt="Image 3">
+            <img src="./ảnh/khuyenmai/lamvc.jpg" alt="Image 4">
         </div>
     </div>
 
@@ -415,8 +420,10 @@ if (totalImages > 0) {
                             <div class="discount-label">-<?php echo $product['discount']; ?>%</div>
                         <?php endif; ?>
                         <a href="product_detail.php?name=<?php echo urlencode($product['name']); ?>">
-                <img src="ảnh/giường age/giuongage2.jpeg" alt="<?php echo htmlspecialchars($product['name']); ?>">
-            </a>
+                        <td>
+                    <img src="<?php echo $product['image']; ?>" alt="Hình ảnh sản phẩm" width="200" height="200">
+                    </td>
+                        </a>
                         <p><strong><?php echo $product['name']; ?></strong></p>
                         <p class="old-price">
                             <?php echo number_format($product['price'], 0, ',', '.') . ' đ'; ?>

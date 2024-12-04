@@ -1,73 +1,41 @@
 <?php
-// Bắt đầu session để lưu trữ giỏ hàng
 session_start();
 
-// Kết nối đến cơ sở dữ liệu
-include 'db_connect.php';
-
-// Khởi tạo biến số lượng giỏ hàng
-$cart_count = 0;
-if (isset($_SESSION['cart'])) {
-    // Tính tổng số lượng sản phẩm trong giỏ hàng
-    foreach ($_SESSION['cart'] as $item) {
-        $cart_count += $item['quantity'];
-    }
+// Khởi tạo giỏ hàng nếu chưa có
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
 }
 
-// Kiểm tra nếu có sản phẩm được thêm vào giỏ hàng
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_id'])) {
-    $product_name = $_POST['product_id'];
-
-    // Truy vấn thông tin sản phẩm từ cơ sở dữ liệu
-    $sql = "SELECT * FROM products WHERE LOWER(name) = LOWER(?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $product_name);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    // Kiểm tra nếu sản phẩm tồn tại trong cơ sở dữ liệu
-    if ($result->num_rows > 0) {
-        $product = $result->fetch_assoc();
-
-        // Kiểm tra nếu sản phẩm đã có trong giỏ hàng
-        if (isset($_SESSION['cart'][$product_name])) {
-            $_SESSION['cart'][$product_name]['quantity'] += 1; // Tăng số lượng nếu sản phẩm đã có trong giỏ
+// Xử lý các thao tác giỏ hàng
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Cập nhật số lượng sản phẩm
+    if (isset($_POST['update_quantity'])) {
+        $product_id = $_POST['product_id'];
+        $quantity = intval($_POST['quantity']); // Chuyển đổi số lượng sang số nguyên
+        if ($quantity > 0) {
+            $_SESSION['cart'][$product_id]['quantity'] = $quantity;
         } else {
-            // Nếu sản phẩm chưa có, thêm vào giỏ
-            $_SESSION['cart'][$product_name] = [
-                'name' => $product_name,
-                'quantity' => 1,
-                'price' => $product['price'],
-                'discount' => $product['discount']
-            ];
+            unset($_SESSION['cart'][$product_id]); // Xóa sản phẩm nếu số lượng <= 0
         }
-    } else {
-        echo "Sản phẩm không tồn tại!";
+    }
+
+    // Xóa sản phẩm khỏi giỏ hàng
+    if (isset($_POST['remove_product'])) {
+        $product_id = $_POST['product_id'];
+        unset($_SESSION['cart'][$product_id]);
     }
 }
 
-// Kiểm tra nếu người dùng chỉnh sửa số lượng sản phẩm
-if (isset($_POST['update_quantity'])) {
-    $product_name = $_POST['product_id'];
-    $quantity = $_POST['quantity'];
-    if ($quantity > 0) {
-        $_SESSION['cart'][$product_name]['quantity'] = $quantity;
-    } else {
-        unset($_SESSION['cart'][$product_name]); // Xóa sản phẩm nếu số lượng là 0
-    }
+// Tính tổng tiền giỏ hàng
+$cart = $_SESSION['cart'];
+$total = 0; // Biến lưu tổng cộng tiền giỏ hàng
+foreach ($cart as $item) {
+    // Tổng tiền của sản phẩm hiện tại (giá × số lượng)
+    $subtotal = $item['price'] * $item['quantity'];
+    // Cộng dồn vào tổng tiền giỏ hàng
+    $total += $subtotal;
 }
-
-// Kiểm tra nếu người dùng xóa sản phẩm
-if (isset($_POST['remove_product'])) {
-    $product_name = $_POST['product_id'];
-    unset($_SESSION['cart'][$product_name]);
-}
-
-// Hiển thị giỏ hàng
-$cart = $_SESSION['cart'] ?? [];
-$total = 0;
 ?>
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -77,79 +45,79 @@ $total = 0;
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
         }
+
         .cart-container {
-            width: 80%;
+            width: 95%;
             margin: 50px auto;
-            background-color: #fff;
+            background-color: #ffffff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
+
         th, td {
+            font-weight: bold;
             padding: 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
+
         th {
             background-color: #f8f8f8;
         }
+
         .total-price {
             text-align: right;
             font-size: 20px;
             margin-top: 20px;
         }
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: transparent; /* Không có nền */
-            color: #000; /* Màu đen cho dấu X */
-            border: none;
-            padding: 10px 15px;
-            border-radius: 50%;
-            font-size: 18px;
-            cursor: pointer;
-        }
-        .back-btn:hover {
-            background-color: #218838;
-        }
-        .update-btn, .remove-btn {
-            background-color: #ff6f61;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .update-btn:hover, .remove-btn:hover {
-            background-color: #ff4f3d;
-        }
+
         .checkout-btn {
+            display: block;
+            text-align: center;
             width: 100%;
-            background-color: #007bff;
-            color: white;
             padding: 15px;
-            border: none;
+            background-color: #007bff;
+            color: #ffffff;
             font-size: 18px;
-            cursor: pointer;
+            text-decoration: none;
+            border-radius: 8px;
             margin-top: 20px;
+            margin-left: -15px;
         }
+
         .checkout-btn:hover {
             background-color: #0056b3;
+        }
+
+        .cart-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* Căn chỉnh cột hình ảnh, tên sản phẩm */
+        .product-details {
+            display: flex;
+            align-items: center;
+        }
+
+        .product-details img {
+            margin-right: 15px;
         }
     </style>
 </head>
 <body>
-
-<button class="back-btn" onclick="window.history.back();">X</button>
 
 <div class="cart-container">
     <h2>Giỏ hàng của bạn</h2>
@@ -157,46 +125,56 @@ $total = 0;
         <table>
             <thead>
                 <tr>
+                    <th>Hình ảnh</th>
                     <th>Tên sản phẩm</th>
                     <th>Số lượng</th>
                     <th>Giá</th>
                     <th>Tổng</th>
-                    <th>Thao tác</th>
+                    <th>Hành động</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($cart as $product_name => $item): ?>
-                    <?php
-                    $subtotal = $item['price'] * (1 - $item['discount'] / 100) * $item['quantity'];
-                    $total += $subtotal;
+                <?php foreach ($cart as $product_id => $item): ?>
+                    <?php 
+                        // Tổng tiền cho sản phẩm
+                        $subtotal = $item['price'] * $item['quantity']; 
                     ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($product_name); ?></td>
+                        <td>
+                        <img src="<?php echo $item['image']; ?>" alt="Hình ảnh sản phẩm" class="cart-image">
+                        </td>
+                        <td>
+                            <div class="product-details">
+                                <p><?php echo htmlspecialchars($item['name']); ?></p>
+                            </div>
+                        </td>
                         <td>
                             <form method="POST">
                                 <input type="number" name="quantity" value="<?php echo $item['quantity']; ?>" min="1" style="width: 50px;">
-                                <input type="hidden" name="product_id" value="<?php echo $product_name; ?>">
-                                <button type="submit" name="update_quantity" class="update-btn">Cập nhật</button>
+                                <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
+                                <button type="submit" name="update_quantity">Cập nhật</button>
                             </form>
                         </td>
-                        <td><?php echo number_format($item['price'] * (1 - $item['discount'] / 100), 0, ',', '.') . ' đ'; ?></td>
+                        <td><?php echo number_format($item['price'], 0, ',', '.') . ' đ'; ?></td>
                         <td><?php echo number_format($subtotal, 0, ',', '.') . ' đ'; ?></td>
                         <td>
                             <form method="POST">
-                                <input type="hidden" name="product_id" value="<?php echo $product_name; ?>">
-                                <button type="submit" name="remove_product" class="remove-btn">Xóa</button>
+                                <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
+                                <button type="submit" name="remove_product">Xóa</button>
                             </form>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
+
+        <!-- Hiển thị tổng cộng -->
         <div class="total-price">
             <strong>Tổng cộng: <?php echo number_format($total, 0, ',', '.') . ' đ'; ?></strong>
         </div>
-        <form method="POST">
-            <button type="submit" class="checkout-btn"formaction="payment.php">Thanh toán</button>
-        </form>
+
+        <!-- Nút thanh toán -->
+        <a href="payment.php" class="checkout-btn">Thanh toán</a>
     <?php else: ?>
         <p>Giỏ hàng của bạn hiện tại không có sản phẩm nào.</p>
     <?php endif; ?>

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -29,6 +30,7 @@
             color: #333;
             text-decoration: none;
             font-weight: bold;
+            cursor: pointer;
         }
         .login-container h2 {
             text-align: center;
@@ -103,7 +105,7 @@
 </head>
 <body>
     <div class="login-container">
-        <a href="webbh.php" class="close-btn">X</a>
+        <a href="javascript:void(0);" class="close-btn" onclick="window.history.back();">X</a>
         <h2>Đăng Nhập</h2>
         <form id="loginForm" method="POST">
             <div class="form-group">

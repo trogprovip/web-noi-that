@@ -198,7 +198,10 @@ $products = mysqli_query($conn, $query);
                     <td><?php echo $product['description']; ?></td>
                     <td><?php echo number_format($product['price'], 2); ?> VNĐ</td>
                     <td><?php echo $product['category']; ?></td>
-                    <td><img src="ảnh/giường age/giuongage2.jpeg"  width="50"></td>
+                    <td>
+                    <img src="<?php echo $product['image']; ?>" alt="Hình ảnh sản phẩm" width="100">
+                    </td>
+
                     <td><?php echo $product['discount']; ?>%</td>
                     <td>
                         <a href="edit_product.php?id=<?php echo $product['id']; ?>">Sửa</a> | 

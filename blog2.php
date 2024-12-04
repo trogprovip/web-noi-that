@@ -1,8 +1,32 @@
+<?php
+include 'db_connect.php';
+
+// Lấy sản phẩm từ cơ sở dữ liệu
+$query = "SELECT * FROM products WHERE status = 'active'";
+$products = mysqli_query($conn, $query);
+
+// Kiểm tra kết nối
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Kết nối thất bại: " . $conn->connect_error);
+} else {
+    echo "Kết nối thành công!"; // Dòng này để kiểm tra kết nối
+}
+session_start(); // Bắt đầu session
+
+// Kiểm tra xem người dùng đã đăng nhập chưa
+if (isset($_SESSION['user_id'])) {
+    $fullname = $_SESSION['fullname']; // Lấy tên người dùng từ session
+} else {
+    $fullname = null; // Nếu chưa đăng nhập
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport content="width=device-width, initial-scale=1.0>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Nội thất Bắc Âu</title>
     <style>
@@ -28,7 +52,6 @@
             top: 0;
             right: 0;
             z-index: 1000; /* Đảm bảo header nằm trên các phần tử khác */
-
         }
 
         /* Logo */
@@ -41,6 +64,7 @@
         .menu ul { 
             display: flex;
             list-style: none; 
+
         }
         .menu ul li { 
             padding: 0 10px; /* Khoảng đệm ngang giữa các mục menu chính */
@@ -56,7 +80,6 @@
         .sub-menu {
             display: none;
             opacity: 0; /* Ban đầu ẩn menu con */
-            visibility: hidden; /* Ẩn hoàn toàn */
             position: absolute;
             top: 80%;
             left: 0;
@@ -97,7 +120,7 @@
             align-items: center;
         }
         .other input {
-            width: 180px;
+            width: 280px;
             height: 30px;
             padding: 5px;
             margin-right: 30px;
@@ -109,6 +132,7 @@
         }
         .other a {
             color: #0d425d; 
+            margin-left: 5px;
             margin-right: 20px;
             font-size: 18px;
             font-weight: bold; 
@@ -140,29 +164,27 @@
         </div>
         <div class="menu">
             <ul>
-                <li><a href="index.html">Trang Chủ</a></li>
-                <li><a href="#">Phòng</a>
-                    <ul class="sub-menu">
-                        <li><a href="#">Phòng khách</a></li>
-                        <li><a href="#">Phòng ngủ</a></li>
-                        <li><a href="#">Phòng ăn</a></li>
-                        <li><a href="#">Phòng làm việc</a></li>
-                    </ul>
-                </li>
-                <li><a href="khuyenmai.html">Khuyến mại</a></li>
-                <li><a href="blog.html">Blog</a></li>
+                <li><a href="webbh.php">Trang Chủ</a></li>
+                <li><a href="blog.php">Blog</a></li>
             </ul>
         </div>
         <div class="other">
             <input type="text" placeholder="Tìm kiếm..."> 
-            <a href="dangnhap.html">
-                <img src="Font Awesome/user-solid.svg" style="width: 15px; height: auto;" class="icon" >
+            <?php if ($fullname): ?>
+            <!-- Hiển thị khi người dùng đã đăng nhập -->
+            <span>Xin chào, <strong><?= htmlspecialchars($fullname); ?></strong></span>
+            <a href="logout.php" class="logout-btn">Đăng xuất</a>
+        <?php else: ?>
+            <!-- Hiển thị khi người dùng chưa đăng nhập -->
+            <a href="DNhap.php">
+                <img src="Font Awesome/user-solid.svg" style="width: 15px; height: auto;" class="icon">
                 Đăng nhập
             </a>
-            <a href="#">
-                <img src="Font Awesome/cart-shopping-solid.svg" style="width: 20px; height: auto;" class="icon" >
-                <span id="cart-count">0</span>
-            </a>
+        <?php endif; ?>
+        <a href="cart.php">
+            <img src="Font Awesome/cart-shopping-solid.svg" style="width: 20px; height: auto;" class="icon">
+            <span id="cart-count"></span>
+        </a>
         </div>
     </header>
         <main>
@@ -170,7 +192,7 @@
                 <div class="news-detail-section">
                     <div class="row">
                         <div class="col-lg-9">
-                            <h1 class="news-detail-title">Khám phá BST nội thất LIMFJORDEN - Vẻ đẹp thư thái đến từ phong cách Bắc Âu</h1>
+                            <h1 class="news-detail-title">Bộ sưu tập Markskel: Cảm hứng tân cổ điển cho phong cách Bắc Âu</h1>
                             <div class="news-detail-subtitle">
                                 <div class="account">Tác giả: <span>trongprovip</span></div>
                                 <div class="text">-</div>
@@ -220,56 +242,44 @@
             </div>
     
             <div class="article-content">
-                <h4>Bộ sưu tập nội thất LIMFJORDEN không chỉ cuốn hút bởi vẻ tinh giản, đường nét gọn gàng, không cầu kỳ, mà còn ghi điểm bởi chất liệu tự nhiên và an toàn. Bảng màu trung tính và đa dạng như xám, trắng và be của LIMFJORDEN sẽ giúp mang đến cảm giác thanh lịch và hiện đại cho tổ ấm của bạn.</h4>
+                <p>Bộ sưu tập nội thất Markskel của Nội Thất Bắc Âu mang đến làn gió mới cho phong cách nội thất Bắc Âu, khi kết hợp hài hòa giữa vẻ đẹp tân cổ điển cùng sự hiện đại và tinh tế đặc trưng của Scandinavian. Lấy cảm hứng từ các chi tiết lịch lãm, cổ điển nhưng không kém phần thanh thoát, BST Markskel không chỉ tạo nên không gian sống sang trọng mà còn đậm chất nghệ thuật. Mỗi sản phẩm trong bộ sưu tập đều mang một dấu ấn riêng, vừa giữ được vẻ đẹp vượt thời gian, vừa thổi hồn vào đó sự tươi mới, hiện đại của phong cách Bắc Âu.</p>
                 <p style="text-align: center;">
-                    <img alt="" src="./anh/top-in-the-spotlight-limfjorden.jpg" />
+                    <img alt="" src="./anh/top-image---in-the-spotlight-the-markskel-furniture-collection.jpg" />
                 </p>
-                <p style="text-align: center;">Cùng khám phá những nét đặc trưng của phong cách Bắc Âu thông qua bộ sưu tập LIMFJORDEN đến từ Nội Thất Bắc Âu nhé!</p>
-                <h2>BST nội thất LIMFJORDEN - Nét tinh hoa của phong cách Bắc Âu</h2>
-                <p>Bộ sưu tập nội thất LIMFJORDEN từ Nội Thất Bắc Âu được lấy cảm hứng từ vẻ đẹp thanh bình và tinh tế của vịnh hẹp LIMFJORDEN tại Đan Mạch. Với chất liệu tự nhiên và được chế tác một cách tỉ mỉ và an toàn. Mang đến sự thanh lịch và nhẹ nhàng cho không gian sống của bạn.</p>
+                <h2>BST Markskel - Vẻ đẹp hiện đại "ẩn mình" trong phong cách cổ điển</h2>
+                <p>Không chỉ đơn giản là các sản phẩm nội thất làm từ gỗ, bộ sưu tập Markskel của Nội Thất Bắc Âu còn thổi vào không gian một hơi thở Scandinavia ấm cúng và hài hòa. "Markskel" trong tiếng Đan Mạch có nghĩa là "biên giới cánh đồng", thể hiện ranh giới giữa cái cũ và cái mới. Điều này hoàn toàn phù hợp với ý tưởng bộ sưu tập, khi nó gợi nhớ đến sự kết hợp đầy sáng tạo giữa yếu tố cổ điển và sự hiện đại trong phong cách Bắc Âu.</p>
+                <h2>Điểm nhấn nổi bật của bộ sưu tập Markskel</h2>
+                <p>BST Markskel không chỉ thu hút bởi vẻ đẹp tinh tế mà còn mang đến tính tiện dụng với các món nội thất như tủ quần áo, giường, bàn làm việc, kệ TV và nhiều sản phẩm khác. Những thiết kế này vừa giúp tối ưu hóa không gian lưu trữ, vừa mang lại sự ấm áp và lịch lãm cho ngôi nhà. Các chất liệu cao cấp như gỗ tự nhiên, màu sơn trắng, tay nắm đồng tạo nên sự kết hợp hoàn hảo giữa cổ điển và hiện đại, giúp không gian trở nên hài hòa, thanh lịch.</p>
+                <h3>Tối ưu không gian phòng ăn</h3>
+                <p>Một trong những điểm nổi bật của BST Markskel là các sản phẩm dành cho phòng bếp, bao gồm tủ búp phê, tủ trưng bày và bàn ăn với thiết kế tinh tế, đa dạng ngăn chứa. Sự đồng bộ này không chỉ giúp giữ cho phòng ăn luôn gọn gàng mà còn tạo điểm nhấn ấn tượng với những chi tiết thanh lịch.</p>
                 <p style="text-align: center;">
-                    <img alt="" src="./anh/bst-limfjorden1.jpg" />
+                    <img alt="" src="./anh/tu-bep.jpg" />
                 </p>
-                <p style="text-align: center;">Cái tên LIMFJORDEN mang nhiều ý nghĩa thú vị, trong đó chính là vẻ đẹp và văn hóa của vùng Scandinavia.</p>
-                <p>LIMFJORDEN- là tên của một vịnh nổi tiếng nằm giữa bán đảo Jutland của Đan Mạch. Nơi đây nổi tiếng với vẻ đẹp tự nhiên hoang sơ, những hòn đảo nhỏ duyên dáng và làn nước trong xanh như ngọc. Tên gọi LIMFJORDEN gợi lên sự tinh tế, thanh bình và gần gũi với thiên nhiên.  Đặc trưng của phong cách Bắc Âu.
-                    Ngoài ra, “LIM” trong tiếng Đan Mạch có nghĩa là "keo", tượng trưng cho sự gắn kết chặt chẽ, bền vững. Điều này cũng nhấn mạnh về chất lượng và độ bền của các sản phẩm trong bộ sưu tập nội thất LIMFJORDEN. Và với "FJORD"- từ bắt nguồn từ tiếng Na Uy cổ, có nghĩa là "vịnh hẹp" hoặc "eo biển". Những vịnh hẹp này thể hiện nét đặc trưng của vùng Scandinavia, một vẻ đẹp hùng vĩ và bí ẩn.  <br>  <br>  <br>  Có thể nói, cái tên LIMFJORDEN không chỉ đơn thuần là một địa danh mà còn gợi sự kết hợp tinh tế giữa thiên nhiên, chất liệu bền vững và cá tính riêng biệt. Hoàn toàn phù hợp với tinh thần và giá trị của phong cách Bắc Âu, đây cũng là ý nghĩa mà Nội Thất Bắc Âu mong muốn mang đến cho khách hàng của mình.</p>
-                    <p style="text-align: center;">
-                        <img alt="" src="./anh/bst-limfjorden2.jpg" />
-                    </p>
-                    <p style="text-align: center;">Cảm nhận sự tinh tế và vẻ đẹp mượt mà của dòng sản phẩm LIMFJORDEN, chắc chắn sẽ mang lại một cảm giác bình yên và thư thái như một tách trà ấm áp trong một ngày se lạnh.</p>
-                    <h2>Điểm nhấn đặc sắc của bộ sưu tập nội thất LIMFJORDEN của Nội Thất Bắc Âu</h2>
-                    <p>Có thể nói, điểm nhấn của các sản phẩm LIMFJORDEN chính là đường nét đẹp mắt, cùng thiết kế tối giản phù hợp với mọi ngôi nhà. Vẻ ngoài vượt thời gian của sản phẩm dễ dàng hòa quyện vào nội thất phòng khách, phòng ngủ hoặc phòng làm việc của bạn, phục vụ đồng thời cả mục đích chức năng và thẩm mỹ.</p>
-                    <p style="text-align: center;">
-                        <img alt="" src="./anh/bst-limfjorden4.jpg" />
-                    </p>
-                    <p style="text-align: center;">Trong đó, bộ sản phẩm LIMFJORDEN sẽ bao gồm: Tủ có ngăn kéo với nhiều kích cỡ và màu sắc khác nhau, tủ đầu giường, tủ quần áo và bàn làm việc… với 3 tông màu chủ đạo là: màu trắng, màu gỗ và be.</p>
-                    <h3>Tủ quần áo LIMFJORDEN</h3>
-                    <p>Tủ quần áo LIMFJORDEN là sản phẩm mới được làm từ chất liệu gỗ công nghiệp và cung cấp các lựa chọn lưu trữ tốt nhất dành cho phòng ngủ của bạn. Một chiếc tủ quần áo rộng rãi sẽ là giải pháp lý tưởng cho các cặp đôi hoặc những người yêu thích thời trang.</p>
-                    <p style="text-align: center;">
-                        <img alt="" src="./anh/bst-limfjorden7.jpg" />
-                    </p>
-                    <p style="text-align: center;">
-                        <img alt="" src="./anh/bst-limfjorden6.jpg" />
-                    </p>
-                    <p style="text-align: center;">Tủ quần áo LIMFJORDEN có 2 kích cỡ gồm: Tủ 3 ngăn R180xS58xC200cm và tủ 2 ngăn R120xS58xC200cm</p>
-                    <h3>Tủ đầu giường LIMFJORDEN</h3>
-                    <p>Tủ đầu giường đóng vai trò như một điểm nhấn tuyệt vời trong nội thất phòng ngủ. Với thiết kế nhỏ gọn và xinh xắn, tủ đầu giường giúp đồ đạc của bạn được sắp xếp một cách gọn gàng, ngăn nắp mà còn góp phần làm cho không gian chung trở nên tiện nghi và hiện đại hơn.</p>
-                    <p style="text-align: center;">
-                        <img alt="" src="./anh/bst-limfjorden8.jpg" />
-                    </p>
-                    <p style="text-align: center;">Tủ đầu giường LIMFJORDEN với thiết kế tối giản nhưng đa dụng, là sự lựa chọn lý tưởng cho phòng ngủ của bạn.</p>
-                    <h3>Giường ngủ LIMFJORDEN</h3>
-                    <p style="text-align: center;">
-                        <img alt="" src="./anh/bst-limfjorden12.jpg" />
-                    </p>
-                    <p style="text-align: center;">Ghi điểm với thiết kế tinh tế và đa năng, giường ngủ LIMFJORDEN được tăng cường thêm 2 ngăn kéo nằm bên hông.</p>
-                    <p style="font-size: 20px;">Với 2 ngăn kéo bên hông của giường LIMFJORDEN, nhờ vậy bạn có thêm không gian lưu trữ vô cùng tiện lợi để cất giữ những bộ chăn- ga-drap, tài liệu hoặc những đồ vậy ít dùng tới.</p>
-                    <h2>Bàn làm việc LIMFJORDEN</h2>
-                    <p>Ngoài cung cấp các giải pháp lưu trữ rộng rãi và đầy phong cách, bộ sưu tập LIMFJORDEN còn có thêm những sản phục vụ cho từng không gian. Trong đó bàn làm việc LIMFJORDEN với thiết kế bốn ngăn kéo, cùng kích thước rộng rãi bao gồm: chiều rộng 60cm, chiều dài 120cm và chiều cao 76cm. Đây được xem là kích thước lý tưởng để các thành viên trong gia đình bạn có thể sử dụng thoải mái.</p>
-                    <p style="text-align: center;">
-                        <img alt="" src="./anh/bst-limfjorden11.jpg" />
-                    </p>
-                    <p style="text-align: center;">Bàn làm việc LIMFJORDEN có 3 màu sắc để bạn lựa chọn. Cả ba phiên bản đều tạo nên sự sang trọng đầy phong cách, phù hợp với mọi kiểu trang trí nội thất.</p>
+                <p style="text-align: center;">
+                    <img alt="" src="./anh/tu-bep-dep.jpg" />
+                </p>
+                <h3>Làm đẹp không gian phòng khách</h3>
+                <p>Nội thất Markskel không chỉ đẹp về thẩm mỹ mà còn đáp ứng tối đa nhu cầu sử dụng với các sản phẩm như bàn cà phê, kệ Tivi tích hợp ngăn chứa rộng rãi. Thiết kế tân cổ điển tinh tế giúp dễ dàng phối hợp với các món đồ khác, tạo nên một phòng khách gọn gàng và ấn tượng. Các sản phẩm trong BST này vừa mang lại vẻ đẹp thanh lịch, vừa đảm bảo sự tiện nghi cho không gian sống của bạn.</p>
+            </p>
+            <p style="text-align: center;">
+                <img alt="" src="./anh/tu-cafe-markskel.jpg" />
+            </p>
+            <h3>Tạo không gian làm việc hiệu quả</h3>
+            <p>Bàn làm việc trong BST Markskel là lựa chọn lý tưởng cho không gian làm việc tại nhà. Thiết kế tích hợp các ngăn lưu trữ giúp bạn sắp xếp tài liệu và vật dụng cá nhân một cách gọn gàng. Đồng thời, tủ sách được bố trí hợp lý để tạo nên một không gian làm việc khoa học và ấm cúng.</p>
+            <p style="text-align: center;">
+                <img alt="" src="./anh/ban-lam-viec-markskel.jpg" />
+            </p>
+            <h3>Không gian phòng ngủ hoàn hảo với Markskel</h3>
+            <p>Đối với phòng ngủ, tủ quần áo Markskel là giải pháp lưu trữ lý tưởng, với thiết kế thông minh và nhiều ngăn chứa rộng rãi. Cùng hai kích cỡ phù hợp cho nhu cầu gia đình, riêng với tủ có kích thước lớn được trang bị gương tiện dụng. Bên cạnh đó, giường ngủ và tủ đầu giường trong bộ sưu tập cũng giúp hoàn thiện không gian nghỉ ngơi một cách đồng bộ và tinh tế.</p>
+            <p style="text-align: center;">
+                <img alt="" src="./anh/set-noi-that-phong-ngu-markskel.jpg" />
+            </p>
+           <h2>Đồng điệu không gian với trọn bộ sản phẩm BST Markskel từ Nội Thất Bắc Âu</h2>
+           <p>Markskel không chỉ mang lại tính thẩm mỹ mà còn đáp ứng mọi nhu cầu lưu trữ và sắp xếp không gian sống. Với thiết kế đồng bộ và linh hoạt, BST này giúp bạn dễ dàng tạo nên một tổ ấm hiện đại và ấm cúng. Đặc biệt, các sản phẩm của Nội Thất Bắc Âu  đều đạt chứng nhận an toàn môi trường và sức khỏe: FSC®, vì vậy bạn có thể hoàn toàn yên tâm khi mua sắm tại Nội Thất Bắc Âu.</p>
+           <p style="text-align: center;">
+            <img alt="" src="./anh/bst-markskel.jpg" />
+        </p>
+        <p style="text-align: center;">Hãy khám phá thêm những mẹo trang trí hữu ích từ Nội Thất Bắc Âu và tìm cho mình những sản phẩm nội thất Bắc Âu phù hợp để làm đẹp không gian sống của bạn!</p>
 </div>      
 <style>
     .article-content {

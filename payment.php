@@ -1,34 +1,58 @@
 <?php
 session_start();
-
+// Kiểm tra xem người dùng đã đăng nhập chưa
+if (!isset($_SESSION['user_id'])) {
+    // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+    header("Location: DNhap.php");
+    exit();
+}
+// Kiểm tra xem giỏ hàng có dữ liệu không
 if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
     header("Location: cart.php");
     exit();
 }
 
+// Lấy thông tin giỏ hàng từ session
+$cart = $_SESSION['cart'];
+$total = 0; // Tổng tiền tất cả sản phẩm
+
+// Tính tổng tiền giỏ hàng
+foreach ($cart as $item) {
+    $subtotal = $item['price'] * $item['quantity']; // Tổng tiền từng sản phẩm
+    $total += $subtotal; // Cộng dồn vào tổng tiền
+}
+
+// Xử lý form thanh toán
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $phone = $_POST['phone'];
+    $email = $_POST['email'];
     $address = $_POST['address'];
-    $note = $_POST['note'] ?? '';
+    $province = $_POST['province'];
+    $district = $_POST['district'];
 
-    if (empty($name) || empty($phone) || empty($address)) {
-        $error = "Vui lòng điền đầy đủ thông tin giao hàng!";
+    // Kiểm tra dữ liệu hợp lệ
+    if (empty($name) || empty($phone) || empty($email) || empty($address) || empty($province) || empty($district)) {
+        $error = "Vui lòng điền đầy đủ thông tin!";
     } else {
+        // Lưu thông tin giao hàng vào session
         $_SESSION['shipping_info'] = [
             'name' => $name,
             'phone' => $phone,
+            'email' => $email,
             'address' => $address,
-            'note' => $note
+            'province' => $province,
+            'district' => $district
         ];
 
-        header("Location: confirm_payment.php");
+        // Xóa giỏ hàng sau khi thanh toán thành công
+        unset($_SESSION['cart']);
+
+        // Chuyển hướng đến trang cảm ơn
+        header("Location: thank_you.php");
         exit();
     }
 }
-
-$cart = $_SESSION['cart'];
-$total = 0;
 ?>
 
 <!DOCTYPE html>
@@ -36,292 +60,215 @@ $total = 0;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THANH TOÁN</title>
-    <link rel="stylesheet" href="./assets/thu.css">
+    <title>Thanh Toán</title>
     <style>
-        
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-        }
-        .container {
-            width: 50%;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
             background-color: #f9f9f9;
-            box-sizing: border-box;
+            margin: 0;
+            padding: 20px;
         }
+
+        .container {
+            display: flex;
+            justify-content: space-between; /* Đặt các phần tử theo chiều ngang */
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .left-col, .right-col {
+            width: 48%; /* Chia đều cho hai cột */
+        }
+
         h2 {
-            text-align: left;
-            font-size: 18px;
             color: #333;
+            font-size: 24px;
+            margin-bottom: 15px;
         }
+
         label {
             display: block;
-            margin: 15px 0 5px;
+            font-weight: bold;
+            margin: 10px 0 5px;
         }
-        input, select, textarea {
-         
-            padding: 10px;
-            margin: 8px 0 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        input[type="submit"] {
+
+        input, select {
             width: 100%;
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        input[type="radio" i] {
-             background-color: initial;
-             cursor: default;
-             appearance: auto;
-        }
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-        .payment-method {
-           
             padding: 10px;
-            margin: 8px 0 10px;
+            margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-}
-
-
-        textarea {
-            resize: vertical;
-            height: 100px;
         }
 
-
-
-    /*  
-        .section {
-            margin-bottom: 20px;
-            
-        }
-        */
-
-
-
-
-        .payment-method, .shipping-method {
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .order-summary {
+            margin-top: 30px;
+            background: #f9f9f9;
             padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .order-summary h3 {
+            font-size: 20px;
             margin-bottom: 10px;
         }
-        .payment-method img, .shipping-method img {
-            width: 30px;
-            vertical-align: middle;
-            margin-right: 10px;
-        }
-        .order-summary {
-            height: 75%;
-            width: 49%;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-            box-sizing: border-box;
-        }
-        .order-summary h2 {
-            text-align: left;
-            font-size: 18px;
-            color: #333;
-        }
+
         .order-summary .item {
             display: flex;
+            align-items: center;
             justify-content: space-between;
             margin-bottom: 10px;
+            padding: 10px 0;
         }
+
         .order-summary .item img {
-            width: 50px;
+            width: 50px; /* Kích thước hình ảnh sản phẩm */
             height: 50px;
-            margin-right: 10px;
+            object-fit: cover;
+            margin-right: 15px;
         }
-        .order-summary .item-details {
-            flex-grow: 1;
-        }
-        .order-summary .item-price {
-            text-align: right;
-        }
+
         .order-summary .total {
             font-weight: bold;
             font-size: 18px;
             text-align: right;
-            margin-top: 20px;
         }
 
-        #Information {
-            width: 100%;
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
         }
-   #province{
-    width: 100%;
-   }
-   #district{
-    width: 100%;
-   }
+
+        .submit-btn {
+            width: 100%;
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 4px;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>THÔNG TIN GIAO HÀNG</h2>
-    <form id="paymentForm">
-    <form action="/submit" method="post">
-       
-        <label for="name">Họ tên*</label>
-        <input type="text" id="Information" name="name" required placeholder="Nhập họ tên">
-        
+    <!-- Cột bên trái (Thông tin thanh toán) -->
+    <div class="left-col">
+        <h2>Thông Tin Thanh Toán</h2>
 
-        <label for="phone">Điện thoại*</label>
-        <input type="tel" id="Information" name="phone" required placeholder="Nhập số điện thoại">
+        <?php if (!empty($error)): ?>
+            <p class="error"><?php echo $error; ?></p>
+        <?php endif; ?>
 
-        <label for="email">Email*</label>
-        <input type="email" id="Information" name="email" required placeholder="Nhập email">
+        <form action="" method="POST">
+            <label for="name">Họ tên*</label>
+            <input type="text" id="name" name="name" required placeholder="Nhập họ tên">
 
-        <label for="province">Tỉnh/Thành phố*</label>
-        <select id="province" name="province" required>
-            <option value="">Chọn Tỉnh/Thành phố</option>
-        </select>
+            <label for="phone">Số điện thoại*</label>
+            <input type="tel" id="phone" name="phone" required placeholder="Nhập số điện thoại">
 
-        <label for="district">Quận/Huyện*</label>
-        <select id="district" name="district" required>
-            <option value="">Chọn Quận/Huyện</option>
-        </select>
+            <label for="email">Email*</label>
+            <input type="email" id="email" name="email" required placeholder="Nhập email">
 
-        <label for="address">Địa chỉ*</label>
-        <input type="text" id="Information" name="address" required placeholder="Số nhà, tên đường, phường , quận, thành phố ">
+            <label for="province">Tỉnh/Thành phố*</label>
+            <select id="province" name="province" required>
+                <option value="">Chọn Tỉnh/Thành phố</option>
+            </select>
 
-        <label for="notes">Ghi chú</label>
-        <textarea id="Information" name="notes" placeholder="Nhập ghi chú (nếu có)"></textarea>
-    
-        <!-- Xuất hóa đơn 
-        <div class="section">
-            <label><input type="checkbox" id="invoice" name="invoice"> Xuất hóa đơn</label>
+            <label for="district">Quận/Huyện*</label>
+            <select id="district" name="district" required>
+                <option value="">Chọn Quận/Huyện</option>
+            </select>
+
+            <label for="address">Địa chỉ*</label>
+            <input type="text" id="address" name="address" required placeholder="Nhập địa chỉ cụ thể">
+
+            <button type="submit" class="submit-btn">Hoàn tất thanh toán</button>
+        </form>
+    </div>
+
+    <!-- Cột bên phải (Tóm tắt đơn hàng) -->
+    <div class="right-col">
+        <div class="order-summary">
+            <h3>Tóm Tắt Đơn Hàng</h3>
+            <?php foreach ($cart as $item): ?>
+                <div class="item">
+                    <!-- Hiển thị hình ảnh sản phẩm -->
+                    <img src="<?php echo $item['image']; ?>" alt="Hình ảnh sản phẩm">
+                    <span class="name-price"><?php echo htmlspecialchars($item['name']); ?> x <?php echo $item['quantity'] ; ?></span>
+                    <span class="price"> :<?php echo number_format($item['price'] * $item['quantity'], 0, ',', '.') . 'đ'; ?></span>
+                </div>
+            <?php endforeach; ?>
+            <div class="total">Tổng cộng: <?php echo number_format($total, 0, ',', '.') . ' đ'; ?></div>
         </div>
-    -->
-
-
-
-        <!-- Phương thức vận chuyển -->
-        <div class="section">
-            <h2>PHƯƠNG THỨC VẬN CHUYỂN</h2>
-            <div class="shipping-method">
-                <label><input type="radio" name="shipping" value="Giao hàng tận nơi" checked> Giao hàng tận nơi</label>
-                <img src="./hinhanh/ship-1.png" alt="">
-            </div>
-        </div>
-
-        <!-- Phương thức thanh toán -->
-        <div class="section">
-            <h2>PHƯƠNG THỨC THANH TOÁN</h2>
-            <div class="payment-method">
-                <label><input type="radio" name="payment" value="COD" checked>
-                    <img src="./hinhanh/tienmat.png" alt="COD">
-                    Thanh toán tiền mặt khi nhận hàng (COD)
-                </label>
-            </div>
-            <div class="payment-method">
-                <label><input type="radio" name="payment" value="Alepay">
-                    <img src="./hinhanh/online.png" alt="Alepay">
-                    Thanh toán online qua cổng thanh toán VNPAY
-                </label>
-            </div>
-        </div>
-        <input type="submit" value="Gửi">
-    </form>
+    </div>
 </div>
 
-<div class="order-summary">
-    <h2>Tóm Tắt Đơn Hàng</h2>
-    <div class="item">
-        <img src="./hinhanh/th.jfif" alt="Bàn góc">
-        <div class="item-details">
-            <p>Sản Phẩm Nội Thất</p>
-        </div>
-        <div class="item-price">0 đ</div>
-    </div>
-    <div class="item">
-        <div class="item-details">
-            <p>Phí vận chuyển</p>
-        </div>
-        <div class="item-price"> 0 đ</div>
-    </div>
-    <div class="item">
-        <div class="item-details">
-            <p>Phí lắp đặt</p>
-        </div>
-        <div class="item-price">0 đ</div>
-    </div>
-    <div class="item">
-        <div class="item-details">
-            <p>Giảm giá</p>
-        </div>
-        <div class="item-price">0 đ</div>
-    </div>
-    <div class="total">
-        Tổng cộng: 0 đ
-    </div>
-    
-    
-</div>
 <script>
-    // Add this to test redirection in the console
-    document.getElementById('paymentForm').addEventListener('submit', function(event) {
-        event.preventDefault();  // Prevent default form submission
-        console.log("Redirecting to the success page...");  // Debugging message
-        window.location.href = 'demothanhtoan.html';  // Redirect to the success page
-    });
-    // List of provinces and districts
-const provinces = {
-    "Hà Nội": ["Ba Đình", "Đống Đa", "Cầu Giấy", "Tây Hồ"],
-    "TP Hồ Chí Minh": ["Quận 1", "Quận 3", "Quận 5", "Quận 7"],
-    "Đà Nẵng": ["Hải Châu", "Thanh Khê", "Sơn Trà", "Ngũ Hành Sơn"],
-    "Hải Phòng": ["Hồng Bàng", "Lê Chân", "Ngô Quyền", "Kiến An"]
-};
+    // JavaScript code for handling provinces and districts
+    const locations = {
+        "Hà Nội": ["Ba Đình", "Hoàn Kiếm", "Tây Hồ", "Long Biên", "Cầu Giấy", "Đống Đa", "Hai Bà Trưng", "Hoàng Mai", "Thanh Xuân", "Sóc Sơn", "Đông Anh", "Gia Lâm", "Nam Từ Liêm", "Thanh Trì", "Bắc Từ Liêm"],
+        "Hải Phòng": ["Hồng Bàng", "Lê Chân", "Ngô Quyền", "Hải An", "Kiến An", "Đồ Sơn", "Dương Kinh", "Thuỷ Nguyên", "An Dương", "An Lão"],
+        "Quảng Ninh": ["Hạ Long", "Móng Cái", "Cẩm Phả", "Uông Bí", "Vân Đồn", "Hoành Bồ", "Cô Tô", "Đông Triều", "Quảng Yên"],
+        "Hải Dương": ["Hải Dương", "Chí Linh", "Nam Sách", "Kinh Môn", "Thanh Hà", "Bình Giang", "Cẩm Giàng", "Gia Lộc"],
+        "Thái Bình": ["Thái Bình", "Quỳnh Phụ", "Hưng Hà", "Đông Hưng", "Thái Thụy", "Kiến Xương", "Tiền Hải"],
+        "Nam Định": ["Nam Định", "Mỹ Lộc", "Vụ Bản", "Ý Yên", "Nghĩa Hưng", "Nam Trực", "Xuân Trường", "Trực Ninh"],
+        "Hà Nam": ["Phủ Lý", "Duy Tiên", "Kim Bảng", "Thanh Liêm", "Bình Lục", "Lý Nhân"],
+        "Bắc Ninh": ["Bắc Ninh", "Từ Sơn", "Yên Phong", "Quế Võ", "Tiên Du", "Thuận Thành", "Lương Tài", "Gia Bình"],
+        "Vĩnh Phúc": ["Vĩnh Yên", "Phúc Yên", "Lập Thạch", "Tam Dương", "Tam Đảo", "Yên Lạc", "Vĩnh Tường", "Sông Lô"],
+        "Phú Thọ": ["Việt Trì", "Phú Thọ", "Lâm Thao", "Thanh Ba", "Thanh Sơn", "Hạ Hoà", "Cẩm Khê", "Đoan Hùng"],
+        "Thái Nguyên": ["Thái Nguyên", "Sông Công", "Phổ Yên", "Đại Từ", "Định Hoá", "Võ Nhai", "Phú Bình"],
+        "Bắc Giang": ["Bắc Giang", "Lục Ngạn", "Lục Nam", "Sơn Động", "Yên Dũng", "Hiệp Hoà", "Việt Yên", "Tân Yên"],
+        "Lạng Sơn": ["Lạng Sơn", "Tràng Định", "Bình Gia", "Văn Lãng", "Cao Lộc", "Lộc Bình", "Chi Lăng"],
+        "Cao Bằng": ["Cao Bằng", "Bảo Lạc", "Hà Quảng", "Trùng Khánh", "Nguyên Bình", "Quảng Hoà", "Hoà An"],
+        "Hà Giang": ["Hà Giang", "Đồng Văn", "Mèo Vạc", "Yên Minh", "Quản Bạ", "Vị Xuyên", "Bắc Quang"],
+        "Tuyên Quang": ["Tuyên Quang", "Sơn Dương", "Hàm Yên", "Yên Sơn", "Chiêm Hóa", "Nà Hang"],
+        "Lào Cai": ["Lào Cai", "Sa Pa", "Bát Xát", "Bảo Thắng", "Bảo Yên", "Văn Bàn", "Mường Khương"],
+        "Yên Bái": ["Yên Bái", "Nghĩa Lộ", "Trạm Tấu", "Mù Cang Chải", "Văn Chấn", "Yên Bình", "Lục Yên"],
+        "Điện Biên": ["Điện Biên Phủ", "Mường Lay", "Mường Nhé", "Mường Chà", "Tủa Chùa", "Tuần Giáo"],
+        "Sơn La": ["Sơn La", "Mộc Châu", "Mai Sơn", "Sông Mã", "Thuận Châu", "Yên Châu", "Bắc Yên"],
+        "Hòa Bình": ["Hoà Bình", "Mai Châu", "Lương Sơn", "Đà Bắc", "Tân Lạc", "Yên Thủy"]
+    };
 
-// Populate province dropdown
-const provinceSelect = document.getElementById('province');
-const districtSelect = document.getElementById('district');
+    const provinceSelect = document.getElementById("province");
+    const districtSelect = document.getElementById("district");
 
-for (let province in provinces) {
-    let option = document.createElement('option');
-    option.value = province;
-    option.textContent = province;
-    provinceSelect.appendChild(option);
-}
-
-// Update districts when a province is selected
-provinceSelect.addEventListener('change', function() {
-    districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>'; // Reset district options
-    const selectedProvince = provinceSelect.value;
-    if (provinces[selectedProvince]) {
-        provinces[selectedProvince].forEach(function(district) {
-            let option = document.createElement('option');
-            option.value = district;
-            option.textContent = district;
-            districtSelect.appendChild(option);
-        });
+    // Populate provinces dropdown
+    for (const province in locations) {
+        const option = document.createElement("option");
+        option.value = province;
+        option.textContent = province;
+        provinceSelect.appendChild(option);
     }
-});
 
-// Form submit redirection
-document.getElementById('paymentForm').addEventListener('submit', function(event) {
-    event.preventDefault();  // Prevent default form submission
-    window.location.href = 'demothanhtoan.html';  // Redirect to the success page
-});
+    provinceSelect.addEventListener("change", () => {
+        const selectedProvince = provinceSelect.value;
+        districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
+
+        if (locations[selectedProvince]) {
+            locations[selectedProvince].forEach((district) => {
+                const option = document.createElement("option");
+                option.value = district;
+                option.textContent = district;
+                districtSelect.appendChild(option);
+            });
+        }
+    });
 </script>
+
 </body>
 </html>

@@ -1,4 +1,5 @@
 <?php
+
 session_start();  // Bắt đầu session
 
 // Kết nối đến cơ sở dữ liệu

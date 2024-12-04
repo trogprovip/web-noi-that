@@ -1,20 +1,37 @@
 <?php
-include 'db_connect.php'; 
+include 'db_connect.php'; // Kết nối cơ sở dữ liệu
+
+// Kiểm tra nếu người dùng bấm nút "Thêm sản phẩm"
 if (isset($_POST['add_product'])) {
     $name = $_POST['name'];
     $description = $_POST['description'];
     $price = $_POST['price'];
     $category = $_POST['category'];
     $discount = $_POST['discount'];
+    $material = $_POST['material'];
+    $length = $_POST['length'];
+    $width = $_POST['width'];
+    $usage_guide = $_POST['usage_guide'];
 
-    $target_dir = "uploads/"; 
-    $target_file = $target_dir . basename($_FILES["image"]["name"]);
-    move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+    // Xử lý tải lên ảnh
+    $target_dir = "uploads/"; // Thư mục lưu ảnh
+    $image_name = basename($_FILES["image"]["name"]); // Tên file ảnh
+    $target_file = $target_dir . $image_name;
 
-    $query = "INSERT INTO products (name, description, price, category, image, discount) 
-              VALUES ('$name', '$description', '$price', '$category', '$target_file', '$discount')";
-    mysqli_query($conn, $query);
-    header("Location: admin_products.php");
+    // Kiểm tra và di chuyển file vào thư mục uploads
+    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+        // Lưu thông tin sản phẩm vào cơ sở dữ liệu
+        $query = "INSERT INTO products (name, description, price, category, image, discount, material, length, width, usage_guide) 
+                  VALUES ('$name', '$description', '$price', '$category', '$target_file', '$discount', '$material', '$length', '$width', '$usage_guide')";
+        if (mysqli_query($conn, $query)) {
+            header("Location: admin_products.php"); // Chuyển hướng đến trang quản lý sản phẩm
+            exit;
+        } else {
+            echo "Lỗi khi thêm sản phẩm: " . mysqli_error($conn);
+        }
+    } else {
+        echo "Lỗi khi tải ảnh. Vui lòng thử lại.";
+    }
 }
 ?>
 
@@ -59,7 +76,6 @@ if (isset($_POST['add_product'])) {
             border-radius: 4px;
             transition: background-color 0.3s;
             font-weight: bold; /* Làm chữ in đậm */
-
         }
         .menu a:hover {
             background-color: #002244;
@@ -82,13 +98,13 @@ if (isset($_POST['add_product'])) {
 
         /* Khung chứa form */
         form {
-            width: 60%; /* Chiều rộng form vừa phải */
-            max-width: 600px; /* Giới hạn chiều rộng tối đa */
+            width: 60%;
+            max-width: 600px;
             padding: 35px;
             background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 51, 102, 0.3);
-            margin: 0 auto; /* Đặt form vào giữa */
+            margin: 0 auto;
         }
 
         /* Các trường input */
@@ -106,7 +122,6 @@ if (isset($_POST['add_product'])) {
             color: #003366;
         }
 
-        /* Placeholder */
         input::placeholder,
         textarea::placeholder {
             color: #7a7a7a;
@@ -131,12 +146,10 @@ if (isset($_POST['add_product'])) {
             background-color: #004080;
         }
 
-        /* Style cho textarea */
         form textarea {
             height: 100px;
             resize: vertical;
         }
-
     </style>
 </head>
 <body>
@@ -160,8 +173,12 @@ if (isset($_POST['add_product'])) {
             <textarea name="description" placeholder="Mô tả sản phẩm" required></textarea>
             <input type="number" name="price" placeholder="Giá" required>
             <input type="text" name="category" placeholder="Danh mục" required>
+            <input type="text" name="material" placeholder="Chất liệu chính" required>
+            <input type="number" name="length" placeholder="Chiều dài sản phẩm (cm)" step="0.1" required>
+            <input type="number" name="width" placeholder="Chiều rộng sản phẩm (cm)" step="0.1" required>
+            <textarea name="usage_guide" placeholder="Hướng dẫn sử dụng" required></textarea>
             <input type="file" name="image" required>
-            <input type="number" name="discount" placeholder="Giảm giá" required>
+            <input type="number" name="discount" placeholder="Giảm giá (%)" required>
             <button type="submit" name="add_product">Thêm sản phẩm</button>
         </form>
     </div>
