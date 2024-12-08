@@ -1,12 +1,26 @@
 <?php
 session_start();
+
+// Kết nối tới cơ sở dữ liệu
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "Ql_bh";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Kiểm tra kết nối
+if ($conn->connect_error) {
+    die("Kết nối thất bại: " . $conn->connect_error);
+}
+
 // Kiểm tra xem người dùng đã đăng nhập chưa
 if (!isset($_SESSION['user_id'])) {
-    // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
     header("Location: DNhap.php");
     exit();
 }
-// Kiểm tra xem giỏ hàng có dữ liệu không
+
+// Kiểm tra giỏ hàng
 if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
     header("Location: cart.php");
     exit();
@@ -14,46 +28,52 @@ if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
 
 // Lấy thông tin giỏ hàng từ session
 $cart = $_SESSION['cart'];
-$total = 0; // Tổng tiền tất cả sản phẩm
-
-// Tính tổng tiền giỏ hàng
+$total = 0;
 foreach ($cart as $item) {
-    $subtotal = $item['price'] * $item['quantity']; // Tổng tiền từng sản phẩm
-    $total += $subtotal; // Cộng dồn vào tổng tiền
+    $subtotal = $item['price'] * $item['quantity'];
+    $total += $subtotal;
 }
 
-// Xử lý form thanh toán
+// Xử lý thanh toán
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
-    $phone = $_POST['phone'];
-    $email = $_POST['email'];
-    $address = $_POST['address'];
-    $province = $_POST['province'];
-    $district = $_POST['district'];
+    $name = trim($_POST['name']);
+    $phone = trim($_POST['phone']);
+    $email = trim($_POST['email']);
+    $address = trim($_POST['address']);
+    $province = trim($_POST['province']);
+    $district = trim($_POST['district']);
+    $customer_id = $_SESSION['user_id'];
 
-    // Kiểm tra dữ liệu hợp lệ
-    if (empty($name) || empty($phone) || empty($email) || empty($address) || empty($province) || empty($district)) {
-        $error = "Vui lòng điền đầy đủ thông tin!";
-    } else {
-        // Lưu thông tin giao hàng vào session
-        $_SESSION['shipping_info'] = [
-            'name' => $name,
-            'phone' => $phone,
-            'email' => $email,
-            'address' => $address,
-            'province' => $province,
-            'district' => $district
-        ];
-
-        // Xóa giỏ hàng sau khi thanh toán thành công
-        unset($_SESSION['cart']);
-
-        // Chuyển hướng đến trang cảm ơn
-        header("Location: thank_you.php");
-        exit();
+    // Tính tổng tiền từ giỏ hàng
+    $total = 0;
+    foreach ($_SESSION['cart'] as $item) {
+        $total += $item['price'] * $item['quantity'];
     }
+
+    // Lưu đơn hàng vào bảng orders
+    $stmt = $conn->prepare("INSERT INTO orders (customer_id, customer_name, total_amount) VALUES (?, ?, ?)");
+    $stmt->bind_param("isd", $customer_id, $name, $total);
+    $stmt->execute();
+    $order_id = $stmt->insert_id; // Lấy ID của đơn hàng vừa tạo
+    $stmt->close();
+
+    // Lưu chi tiết sản phẩm vào bảng order_items
+    $stmt = $conn->prepare("INSERT INTO order_items (order_id, product_id, product_name, quantity, price) VALUES (?, ?, ?, ?, ?)");
+    foreach ($_SESSION['cart'] as $item) {
+        $stmt->bind_param("iisid", $order_id, $item['id'], $item['name'], $item['quantity'], $item['price']);
+        $stmt->execute();
+    }
+    $stmt->close();
+
+    // Xóa giỏ hàng sau khi thanh toán thành công
+    unset($_SESSION['cart']);
+
+    // Chuyển hướng đến trang cảm ơn
+    header("Location: thank_you.php");
+    exit();  // Dùng exit() để chắc chắn không có mã nào khác được thực thi
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="vi">

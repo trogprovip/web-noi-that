@@ -163,6 +163,7 @@ $products = mysqli_query($conn, $query);
         <a href="admin_orders.php">Quản lý đơn hàng</a>
         <a href="khachhang.php">Quản lý khách hàng</a>
         <a href="stats.php">Thống kê doanh thu</a>
+        <a href="webbh.php">Quay lại Web</a>
     </div>
 
     <!-- Nội dung chính -->
@@ -194,6 +195,7 @@ $products = mysqli_query($conn, $query);
             <tbody>
                 <?php while ($product = mysqli_fetch_assoc($products)): ?>
                 <tr>
+                    
                     <td><?php echo $product['name']; ?></td>
                     <td><?php echo $product['description']; ?></td>
                     <td><?php echo number_format($product['price'], 2); ?> VNĐ</td>

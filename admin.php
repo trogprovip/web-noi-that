@@ -1,9 +1,11 @@
 <?php
+
 session_start();
-if (!isset($_SESSION['logged_in'])) {
-    header("Location: login.php"); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
-    exit();
-}
+
+// if (!isset($_SESSION['logged_in']) || $_SESSION['role'] != 'admin') {
+//     header("Location: login.php");
+//     exit();
+// }
 ?>
 
 <!DOCTYPE html>
@@ -77,6 +79,7 @@ if (!isset($_SESSION['logged_in'])) {
     <a href="admin_orders.php">Quản lý đơn hàng</a>
     <a href="khachhang.php">Quản lý khách hàng</a>
     <a href="stats.php">Thống kê doanh thu</a>
+    <a href="webbh.php">Quay lại Web</a>
 </div>
 
 <div class="content">

@@ -138,6 +138,7 @@ table {
         <a href="admin_orders.php">Quản lý đơn hàng</a>
         <a href="khachhang.php">Quản lý khách hàng</a>
         <a href="stats.php">Thống kê doanh thu</a>
+        <a href="webbh.php">Quay lại Web</a>
     </div>
 
     <!-- Phần nội dung chính -->

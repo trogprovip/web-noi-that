@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 
 // Kết nối tới cơ sở dữ liệu
 $mysqli = new mysqli("localhost", "root", "", "Ql_bh");
@@ -8,7 +8,13 @@ if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
 }
 
-// Kiểm tra xem có yêu cầu cập nhật trạng thái đơn hàng không
+// Kiểm tra nếu admin đã đăng nhập chưa
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header("Location: DNhap.php");
+    exit();
+}
+
+// Cập nhật trạng thái đơn hàng
 if (isset($_GET['id']) && isset($_GET['status'])) {
     $order_id = $_GET['id'];
     $status = $_GET['status'];
@@ -19,24 +25,14 @@ if (isset($_GET['id']) && isset($_GET['status'])) {
 
     $stmt = $mysqli->prepare("UPDATE orders SET order_status = ? WHERE order_id = ?");
     $stmt->bind_param("si", $status, $order_id);
-
-    if ($stmt->execute()) {
-        echo "Cập nhật trạng thái đơn hàng thành công!";
-    } else {
-        echo "Lỗi khi cập nhật trạng thái đơn hàng: " . $stmt->error;
-    }
-
+    $stmt->execute();
     $stmt->close();
 }
 
-$status_translation = [
-    'pending' => 'Đang chờ',
-    'confirmed' => 'Đã xác nhận',
-    'canceled' => 'Đã hủy'
-];
-
+// Lấy danh sách đơn hàng
 $result = $mysqli->query("SELECT * FROM orders ORDER BY created_at DESC");
 ?>
+
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -137,13 +133,13 @@ $result = $mysqli->query("SELECT * FROM orders ORDER BY created_at DESC");
     <a href="admin_orders.php">Quản lý đơn hàng</a>
     <a href="khachhang.php">Quản lý khách hàng</a>
     <a href="stats.php">Thống kê doanh thu</a>
-    <a href="logout.php">Đăng xuất</a>
+    <a href="webbh.php">Quay lại Web</a>
 </div>
 
 <div class="content">
     <h2>Quản lý Đơn Hàng</h2>
     <table>
-        <tr><th>ID Đơn Hàng</th><th>Tên Khách Hàng</th><th>Tổng Tiền</th><th>Trạng Thái</th><th>Thao Tác</th></tr>
+        <tr><th>ID Đơn Hàng</th><th>Tên Khách Hàng</th><th>Tổng Tiền</th><th>Trạng Thái</th><th>Thao Tác</th><th>Thông tin sản phẩm</th><th>Thông tin khách hàng</th></tr>
         <?php while ($row = $result->fetch_assoc()) : ?>
             <tr>
                 <td><?php echo $row['order_id']; ?></td>
@@ -156,6 +152,13 @@ $result = $mysqli->query("SELECT * FROM orders ORDER BY created_at DESC");
                         <a href="admin_orders.php?id=<?php echo $row['order_id']; ?>&status=canceled" class="button">Hủy</a>
                     <?php endif; ?>
                 </td>
+                <td>
+    <a href="product_detail.php?id=<?php echo $row['order_id']; ?>" class="button">Xem Chi Tiết</a>
+</td>
+<td>
+    <a href="order_details.php?id=<?php echo $row['order_id']; ?>" class="button">Xem Chi Tiết</a>
+</td>
+
             </tr>
         <?php endwhile; ?>
     </table>

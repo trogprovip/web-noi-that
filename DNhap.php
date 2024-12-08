@@ -129,34 +129,50 @@
     </div>
 
     <script>
-        // Xử lý gửi form qua AJAX
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // Ngăn form gửi thông thường
+    // Xử lý gửi form qua AJAX
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // Ngăn form gửi thông thường
 
-            // Lấy giá trị email và mật khẩu
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        // Lấy giá trị email và mật khẩu
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-            // Gửi yêu cầu AJAX
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'xu_ly_dang_nhap.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    const response = JSON.parse(xhr.responseText);
-                    if (response.success) {
-                        // Chuyển hướng nếu đăng nhập thành công
-                        window.location.href = 'Webbh.php';
+        // Gửi yêu cầu AJAX
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'xu_ly_dang_nhap.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                console.log("Response từ server:", response); // Debug dữ liệu từ server
+
+                if (response.success) {
+                    console.log("Vai trò:", response.role); // Kiểm tra role trả về
+
+                    // Phân biệt điều hướng dựa trên vai trò (role)
+                    if (response.role === 'admin') {
+                        console.log("Đăng nhập với vai trò admin");
+                        window.location.href = 'admin.php'; // Chuyển hướng tới trang admin
+                    } else if (response.role === 'customer') {
+                        console.log("Đăng nhập với vai trò khách hàng");
+                        window.location.href = 'webbh.php'; // Chuyển hướng tới trang khách hàng
                     } else {
-                        // Hiển thị lỗi
-                        const errorMessage = document.getElementById('error-message');
-                        errorMessage.textContent = response.message;
-                        errorMessage.style.display = 'block';
+                        console.error("Role không xác định:", response.role);
+                        alert("Lỗi: Vai trò không hợp lệ.");
                     }
+                } else {
+                    // Hiển thị lỗi
+                    const errorMessage = document.getElementById('error-message');
+                    errorMessage.textContent = response.message;
+                    errorMessage.style.display = 'block';
                 }
-            };
-            xhr.send(`email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`);
-        });
-    </script>
+            }
+        };
+
+        xhr.send(`email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`);
+    });
+</script>
+
+
 </body>
 </html>

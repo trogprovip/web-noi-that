@@ -38,6 +38,11 @@ if (isset($_POST['add'])) {
                 if ($item['id'] == $product_id) {
                     $item['quantity'] += $quantity; // Cộng thêm số lượng
                     $found = true;
+
+  
+            alert("Thêm giỏ hàng thành công");
+        
+
                     break;
                 }
             }
@@ -54,8 +59,7 @@ if (isset($_POST['add'])) {
     }
 
     // Chuyển hướng đến trang giỏ hàng
-// header('Location: product_detail.php?name=' . urlencode($product_name) . '&added=1');
- header('Location: ./product_detail.php?name=' . urlencode($product_name) . '&added=1');
+ header('Location: product_detail.php?name=' . urlencode($row['name']) . '&added=1');
 
 
     exit();

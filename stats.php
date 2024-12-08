@@ -4,6 +4,7 @@
 // Kết nối tới cơ sở dữ liệu
 $mysqli = new mysqli("localhost", "root", "", "Ql_bh");
 
+
 if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
 }
@@ -128,6 +129,7 @@ $mysqli->close();
     <a href="admin_orders.php">Quản lý đơn hàng</a>
     <a href="khachhang.php">Quản lý khách hàng</a>
     <a href="stats.php">Thống kê doanh thu</a>
+    <a href="webbh.php">Quay lại Web</a>
 </div>
 
 <div class="content">

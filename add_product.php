@@ -21,7 +21,7 @@ if (isset($_POST['add_product'])) {
     // Kiểm tra và di chuyển file vào thư mục uploads
     if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
         // Lưu thông tin sản phẩm vào cơ sở dữ liệu
-        $query = "INSERT INTO products (name, description, price, category, image, discount, material, length, width, usage_guide) 
+        $query = "INSERT INTO products (, name, description, price, category, image, discount, material, length, width, usage_guide) 
                   VALUES ('$name', '$description', '$price', '$category', '$target_file', '$discount', '$material', '$length', '$width', '$usage_guide')";
         if (mysqli_query($conn, $query)) {
             header("Location: admin_products.php"); // Chuyển hướng đến trang quản lý sản phẩm
@@ -163,6 +163,7 @@ if (isset($_POST['add_product'])) {
         <a href="admin_orders.php">Quản lý đơn hàng</a>
         <a href="khachhang.php">Quản lý khách hàng</a>
         <a href="stats.php">Thống kê doanh thu</a>
+        <a href="webbh.php">Quay lại Web</a>
     </div>
 
     <!-- Nội dung chính -->
